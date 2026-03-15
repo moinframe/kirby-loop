@@ -57,7 +57,7 @@ class Middleware
             }
 
 
-            return $next(...func_get_args());
+            return $next($language, $pageId);
         };
     }
 }
