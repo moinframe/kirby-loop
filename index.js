@@ -1,1 +1,219 @@
-(function(){"use strict";const e=window.Vue;function v(){return window.panel}function _(){return v().api}e.computed,e.customRef,e.defineAsyncComponent,e.defineComponent,e.effectScope,e.getCurrentInstance,e.getCurrentScope,e.h,e.inject,e.isProxy,e.isReactive,e.isReadonly,e.isRef,e.isShallow,e.markRaw,e.nextTick,e.onActivated,e.onBeforeMount,e.onBeforeUnmount,e.onBeforeUpdate,e.onDeactivated,e.onErrorCaptured,e.onMounted,e.onRenderTracked,e.onRenderTriggered,e.onScopeDispose,e.onServerPrefetch,e.onUnmounted,e.onUpdated,e.provide,e.proxyRefs,e.reactive,e.readonly,e.ref,e.shallowReactive,e.shallowReadonly,e.shallowRef,e.toRaw,e.toRef,e.toRefs,e.triggerRef,e.unref,e.useAttrs,e.useCssModule,e.useCssVars,e.useListeners,e.useSlots,e.watch,e.watchEffect,e.watchPostEffect,e.watchSyncEffect;const i=Vue.reactive({items:[],stats:null,loaded:!1});function k(c,o,n,a,s,r,p,m){var u=typeof c=="function"?c.options:c;return o&&(u.render=o,u.staticRenderFns=n,u._compiled=!0),{exports:c,options:u}}const h={__name:"Area",setup(c){const o=_(),{t:n,notification:a}=v(),s=Vue.ref(!1),r=Vue.ref([]),p=Vue.ref(null),m=Vue.ref("all"),u=Vue.computed(()=>{const t=p.value;return t?[{label:n("moinframe.loop.panel.stats.total"),value:String(t.total)},{label:n("moinframe.loop.panel.stats.open"),value:String(t.open),theme:t.open>0?"negative":"default"},{label:n("moinframe.loop.panel.stats.resolved"),value:String(t.resolved)},{label:n("moinframe.loop.panel.stats.today"),value:String(t.today)}]:[]}),g=Vue.computed(()=>m.value==="open"?r.value.filter(t=>t.status!=="RESOLVED"):m.value==="resolved"?r.value.filter(t=>t.status==="RESOLVED"):r.value),b=Vue.computed(()=>g.value.map(t=>{const l=t.status==="RESOLVED",f=(t.replies??[]).length,V=f>0?` · ${f} ${n("moinframe.loop.panel.replies")}`:"";return{id:t.id,commentId:t.id,text:t.comment.length>80?t.comment.substring(0,80)+"…":t.comment,info:`${t.pageTitle} · ${t.author}${V}`,image:{icon:l?"check":"circle",back:l?"green-200":"orange-200",color:l?"green-600":"orange-600"},link:t.pageUrl??void 0,target:t.pageUrl?"_blank":void 0,pagePath:t.pagePath,resolved:l,options:[l?{text:n("moinframe.loop.panel.unresolve"),icon:"undo",click:"unresolve"}:{text:n("moinframe.loop.panel.resolve"),icon:"check",click:"resolve"},...t.pagePath?[{text:n("moinframe.loop.panel.openPage"),icon:"open",click:"openPage"}]:[]]}}));async function d(){s.value=!0;try{const[t,l]=await Promise.all([o.get("loop/comments"),o.get("loop/stats")]);r.value=t??[],p.value=l??null,i.items=r.value,i.stats=p.value,i.loaded=!0}catch(t){a.error(t.message??"Failed to load comments")}finally{s.value=!1}}async function C(t,l){if(t==="resolve")try{await o.post(`loop/comments/${l.commentId}/resolve`),await d()}catch(f){a.error(f.message)}else if(t==="unresolve")try{await o.post(`loop/comments/${l.commentId}/unresolve`),await d()}catch(f){a.error(f.message)}else t==="openPage"&&l.pagePath&&window.open(`${window.location.origin}/panel/${l.pagePath}`,"_blank")}return Vue.onMounted(()=>{i.loaded&&(r.value=i.items,p.value=i.stats),d()}),{__sfc:!0,api:o,t:n,notification:a,loading:s,comments:r,stats:p,filter:m,statsReports:u,filteredComments:g,items:b,load:d,onOption:C}}};var y=function(){var o=this,n=o._self._c,a=o._self._setupProxy;return n("k-panel-inside",[n("k-view",{staticClass:"k-loop-comments-view"},[n("k-header",{scopedSlots:o._u([{key:"buttons",fn:function(){return[n("k-button",{attrs:{icon:"refresh",size:"sm",disabled:a.loading},on:{click:a.load}},[o._v(" "+o._s(a.t("moinframe.loop.panel.refresh"))+" ")])]},proxy:!0}])},[o._v(" "+o._s(a.t("moinframe.loop.panel.label"))+" ")]),n("k-stats",{attrs:{reports:a.statsReports,size:"huge"}}),n("div",{staticClass:"k-loop-filters",staticStyle:{"margin-top":"var(--spacing-3)",display:"flex",gap:"var(--spacing-2)"}},[n("k-button",{attrs:{size:"sm",variant:a.filter==="all"?"filled":"default"},on:{click:function(s){a.filter="all"}}},[o._v(" "+o._s(a.t("moinframe.loop.panel.filter.all"))+" ")]),n("k-button",{attrs:{size:"sm",variant:a.filter==="open"?"filled":"default"},on:{click:function(s){a.filter="open"}}},[o._v(" "+o._s(a.t("moinframe.loop.panel.filter.open"))+" ")]),n("k-button",{attrs:{size:"sm",variant:a.filter==="resolved"?"filled":"default"},on:{click:function(s){a.filter="resolved"}}},[o._v(" "+o._s(a.t("moinframe.loop.panel.filter.resolved"))+" ")])],1),a.loading?[n("k-icon",{staticStyle:{"margin-inline":"auto","margin-block":"var(--spacing-5)"},attrs:{type:"loader"}})]:a.filteredComments.length===0?[n("k-empty",{staticStyle:{"margin-top":"var(--spacing-5)"},attrs:{icon:"chat"}},[o._v(" "+o._s(a.t("moinframe.loop.panel.noComments"))+" ")])]:n("div",{staticClass:"k-items k-list-items",staticStyle:{"margin-top":"var(--spacing-5)"},attrs:{"data-layout":"list"}},o._l(a.items,function(s){return n("k-item",{key:s.id,attrs:{text:s.text,info:s.info,image:s.image,link:s.link,target:s.target},scopedSlots:o._u([{key:"options",fn:function(){return[n("k-options-dropdown",{staticClass:"k-item-options-dropdown",attrs:{options:s.options},on:{option:r=>a.onOption(r,s)}})]},proxy:!0}],null,!0)})}),1)],2)],1)},w=[],R=k(h,y,w);const S=R.exports;panel.plugin("moinframe/loop",{components:{"k-loop-comments-view":S}})})();
+(function() {
+  "use strict";
+  const globalVue = window.Vue;
+  function usePanel() {
+    return window.panel;
+  }
+  function useApi() {
+    return usePanel().api;
+  }
+  const computed = globalVue.computed;
+  globalVue.customRef;
+  globalVue.defineAsyncComponent;
+  globalVue.defineComponent;
+  globalVue.effectScope;
+  globalVue.getCurrentInstance;
+  globalVue.getCurrentScope;
+  globalVue.h;
+  globalVue.inject;
+  globalVue.isProxy;
+  globalVue.isReactive;
+  globalVue.isReadonly;
+  globalVue.isRef;
+  globalVue.isShallow;
+  globalVue.markRaw;
+  globalVue.nextTick;
+  globalVue.onActivated;
+  globalVue.onBeforeMount;
+  globalVue.onBeforeUnmount;
+  globalVue.onBeforeUpdate;
+  globalVue.onDeactivated;
+  globalVue.onErrorCaptured;
+  const onMounted = globalVue.onMounted;
+  globalVue.onRenderTracked;
+  globalVue.onRenderTriggered;
+  globalVue.onScopeDispose;
+  globalVue.onServerPrefetch;
+  globalVue.onUnmounted;
+  globalVue.onUpdated;
+  globalVue.provide;
+  globalVue.proxyRefs;
+  globalVue.reactive;
+  globalVue.readonly;
+  const ref = globalVue.ref;
+  globalVue.shallowReactive;
+  globalVue.shallowReadonly;
+  globalVue.shallowRef;
+  globalVue.toRaw;
+  globalVue.toRef;
+  globalVue.toRefs;
+  globalVue.triggerRef;
+  globalVue.unref;
+  globalVue.useAttrs;
+  globalVue.useCssModule;
+  globalVue.useCssVars;
+  globalVue.useListeners;
+  globalVue.useSlots;
+  globalVue.watch;
+  globalVue.watchEffect;
+  globalVue.watchPostEffect;
+  globalVue.watchSyncEffect;
+  const commentsCache = Vue.reactive({
+    items: [],
+    loaded: false
+  });
+  function normalizeComponent(scriptExports, render, staticRenderFns, functionalTemplate, injectStyles, scopeId, moduleIdentifier, shadowMode) {
+    var options = typeof scriptExports === "function" ? scriptExports.options : scriptExports;
+    if (render) {
+      options.render = render;
+      options.staticRenderFns = staticRenderFns;
+      options._compiled = true;
+    }
+    return {
+      exports: scriptExports,
+      options
+    };
+  }
+  const _sfc_main = {
+    __name: "Area",
+    props: {
+      tab: { type: String, default: "open" }
+    },
+    setup(__props) {
+      const props = __props;
+      const { get, post } = useApi();
+      const { t, notification } = usePanel();
+      const loading = ref(false);
+      const comments = ref([]);
+      const filterTabs = computed(() => {
+        const openCount = comments.value.filter((c) => c.status !== "RESOLVED").length;
+        return [
+          { name: "open", label: t("moinframe.loop.panel.filter.open"), link: "loop", badge: openCount },
+          { name: "resolved", label: t("moinframe.loop.panel.filter.resolved"), link: "loop/resolved" }
+        ];
+      });
+      const filteredComments = computed(() => {
+        if (props.tab === "open") return comments.value.filter((c) => c.status !== "RESOLVED");
+        if (props.tab === "resolved") return comments.value.filter((c) => c.status === "RESOLVED");
+        return comments.value;
+      });
+      const items = computed(
+        () => filteredComments.value.map((c) => {
+          const resolved = c.status === "RESOLVED";
+          const replyCount = (c.replies ?? []).length;
+          const replyText = replyCount > 0 ? ` · ${replyCount} ${t("moinframe.loop.panel.replies")}` : "";
+          return {
+            id: c.id,
+            commentId: c.id,
+            text: c.comment.length > 80 ? c.comment.substring(0, 80) + "…" : c.comment,
+            info: `${c.author}${replyText}`,
+            pageTitle: c.pageTitle,
+            pageUrl: c.pageUrl,
+            panelUrl: c.panelUrl,
+            image: {
+              icon: resolved ? "check" : "circle",
+              back: resolved ? "green-200" : "blue-200",
+              color: resolved ? "green-600" : "blue-600"
+            },
+            pagePath: c.pagePath,
+            resolved,
+            buttons: [
+              {
+                text: t("moinframe.loop.panel.drawer.open"),
+                click: () => openDrawer(c.id)
+              }
+            ],
+            options: [
+              ...c.pagePath ? [{ text: t("moinframe.loop.panel.openPage"), icon: "open", click: "openPage" }] : [],
+              resolved ? { text: t("moinframe.loop.panel.unresolve"), icon: "undo", click: "unresolve" } : { text: t("moinframe.loop.panel.resolve"), icon: "check", click: "resolve" }
+            ]
+          };
+        })
+      );
+      const groupedItems = computed(() => {
+        const groups = {};
+        for (const item of items.value) {
+          const key = item.pageTitle;
+          if (!groups[key]) {
+            groups[key] = {
+              pageTitle: key,
+              pageUrl: item.pageUrl,
+              panelUrl: item.panelUrl,
+              items: []
+            };
+          }
+          groups[key].items.push(item);
+        }
+        return Object.values(groups);
+      });
+      function openDrawer(id) {
+        panel.drawer.open("loop/comments/" + id);
+      }
+      async function load() {
+        loading.value = true;
+        try {
+          const [commentsData] = await Promise.all([
+            get("loop/comments")
+          ]);
+          comments.value = commentsData ?? [];
+          commentsCache.items = comments.value;
+          commentsCache.loaded = true;
+        } catch (e) {
+          notification.error(e.message ?? "Failed to load comments");
+        } finally {
+          loading.value = false;
+        }
+      }
+      async function onOption(action, item) {
+        if (action === "resolve") {
+          try {
+            await post(`loop/comments/${item.commentId}/resolve`);
+            await load();
+          } catch (e) {
+            notification.error(e.message);
+          }
+        } else if (action === "unresolve") {
+          try {
+            await post(`loop/comments/${item.commentId}/unresolve`);
+            await load();
+          } catch (e) {
+            notification.error(e.message);
+          }
+        } else if (action === "openPage" && item.pagePath) {
+          window.open(`${window.location.origin}/panel/${item.pagePath}`, "_blank");
+        }
+      }
+      onMounted(() => {
+        if (commentsCache.loaded) {
+          comments.value = commentsCache.items;
+        }
+        load();
+      });
+      return { __sfc: true, get, post, t, notification, props, loading, comments, filterTabs, filteredComments, items, groupedItems, openDrawer, load, onOption };
+    }
+  };
+  var _sfc_render = function render() {
+    var _vm = this, _c = _vm._self._c, _setup = _vm._self._setupProxy;
+    return _c("k-panel-inside", [_c("k-view", { staticClass: "k-loop-comments-view" }, [_c("k-header", { scopedSlots: _vm._u([{ key: "buttons", fn: function() {
+      return [_c("k-button", { attrs: { "icon": "refresh", "size": "sm", "disabled": _setup.loading }, on: { "click": _setup.load } }, [_vm._v(" " + _vm._s(_setup.t("moinframe.loop.panel.refresh")) + " ")])];
+    }, proxy: true }]) }, [_vm._v(" " + _vm._s(_setup.t("moinframe.loop.panel.label")) + " ")]), _c("k-tabs", { attrs: { "tab": _setup.props.tab, "tabs": _setup.filterTabs } }), _setup.loading ? [_c("k-icon", { staticClass: "k-loop-loader", attrs: { "type": "loader" } })] : _setup.filteredComments.length === 0 ? [_c("k-empty", { staticStyle: { "margin-top": "var(--spacing-5)" }, attrs: { "icon": "chat" } }, [_vm._v(" " + _vm._s(_setup.t("moinframe.loop.panel.noComments")) + " ")])] : _vm._l(_setup.groupedItems, function(group) {
+      return _c("k-section", { key: group.pageTitle, staticClass: "k-loop-group", attrs: { "label": group.pageTitle } }, [_c("template", { slot: "options" }, [_c("k-button-group", { attrs: { "slot": "buttons" }, slot: "buttons" }, [_c("k-button", { attrs: { "icon": "edit", "variant": "filled", "size": "sm", "link": group.panelUrl, "text": _setup.t("moinframe.loop.panel.editPage") } }), _c("k-button", { attrs: { "icon": "open", "variant": "filled", "size": "sm", "link": group.pageUrl, "target": "_blank" } })], 1)], 1), _c("div", { staticClass: "k-items k-list-items", attrs: { "data-layout": "list" } }, _vm._l(group.items, function(item) {
+        return _c("k-item", { key: item.id, attrs: { "text": item.text, "info": item.info, "image": item.image, "options": item.options, "buttons": item.buttons }, on: { "option": (e) => _setup.onOption(e, item) } });
+      }), 1)], 2);
+    })], 2)], 1);
+  };
+  var _sfc_staticRenderFns = [];
+  _sfc_render._withStripped = true;
+  var __component__ = /* @__PURE__ */ normalizeComponent(
+    _sfc_main,
+    _sfc_render,
+    _sfc_staticRenderFns
+  );
+  __component__.options.__file = "/Users/justuskraft/Server/kirby-loop/src/components/Area.vue";
+  const Area = __component__.exports;
+  panel.plugin("moinframe/loop", {
+    components: {
+      "k-loop-comments-view": Area
+    }
+  });
+})();

@@ -1,0 +1,15 @@
+
+.k-loop-filters {
+  margin-top: var(--spacing-2);
+  margin-bottom: var(--spacing-8);
+}
+.k-loop-loader {
+  margin-inline: auto;
+  margin-block: var(--spacing-5);
+}
+.k-loop-group+.k-loop-group {
+  margin-top: var(--spacing-6);
+}
+.k-loop-group-label {
+  margin-bottom: var(--spacing-2);
+}

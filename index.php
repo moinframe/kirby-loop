@@ -123,16 +123,26 @@ Kirby::plugin('moinframe/loop', [
             'moinframe.loop.panel.noComments' => 'No comments yet.',
             'moinframe.loop.panel.unknownPage' => 'Unknown page',
             'moinframe.loop.panel.replies' => 'replies',
-            'moinframe.loop.panel.stats.total' => 'Total',
-            'moinframe.loop.panel.stats.open' => 'Open',
-            'moinframe.loop.panel.stats.resolved' => 'Resolved',
-            'moinframe.loop.panel.stats.today' => 'Today',
             'moinframe.loop.panel.resolve' => 'Resolve',
             'moinframe.loop.panel.unresolve' => 'Reopen',
             'moinframe.loop.panel.openPage' => 'Open page',
             'moinframe.loop.panel.filter.all' => 'All',
             'moinframe.loop.panel.filter.open' => 'Open',
-            'moinframe.loop.panel.filter.resolved' => 'Resolved'
+            'moinframe.loop.panel.filter.resolved' => 'Resolved',
+            'moinframe.loop.panel.editPage' => 'Edit',
+
+            // Panel drawer translations
+            'moinframe.loop.panel.drawer.open' => 'View',
+            'moinframe.loop.panel.drawer.comment' => 'Comment',
+            'moinframe.loop.panel.drawer.author' => 'Author',
+            'moinframe.loop.panel.drawer.date' => 'Date',
+            'moinframe.loop.panel.drawer.page' => 'Page',
+            'moinframe.loop.panel.drawer.replies' => 'Replies',
+            'moinframe.loop.panel.drawer.noReplies' => 'No replies yet.',
+            'moinframe.loop.panel.drawer.status.open' => 'Open',
+            'moinframe.loop.panel.drawer.status.resolved' => 'Resolved',
+            'moinframe.loop.panel.resolve.confirm' => 'Mark this comment as resolved?',
+            'moinframe.loop.panel.unresolve.confirm' => 'Reopen this comment?'
         ],
         'de' => [
             // General errors
@@ -239,16 +249,26 @@ Kirby::plugin('moinframe/loop', [
             'moinframe.loop.panel.noComments' => 'Noch keine Kommentare.',
             'moinframe.loop.panel.unknownPage' => 'Unbekannte Seite',
             'moinframe.loop.panel.replies' => 'Antworten',
-            'moinframe.loop.panel.stats.total' => 'Gesamt',
-            'moinframe.loop.panel.stats.open' => 'Offen',
-            'moinframe.loop.panel.stats.resolved' => 'Erledigt',
-            'moinframe.loop.panel.stats.today' => 'Heute',
             'moinframe.loop.panel.resolve' => 'Erledigen',
             'moinframe.loop.panel.unresolve' => 'Wieder öffnen',
             'moinframe.loop.panel.openPage' => 'Seite öffnen',
             'moinframe.loop.panel.filter.all' => 'Alle',
             'moinframe.loop.panel.filter.open' => 'Offen',
-            'moinframe.loop.panel.filter.resolved' => 'Erledigt'
+            'moinframe.loop.panel.filter.resolved' => 'Erledigt',
+            'moinframe.loop.panel.editPage' => 'Bearbeiten',
+
+            // Panel drawer translations
+            'moinframe.loop.panel.drawer.open' => 'Ansehen',
+            'moinframe.loop.panel.drawer.comment' => 'Kommentar',
+            'moinframe.loop.panel.drawer.author' => 'Autor',
+            'moinframe.loop.panel.drawer.date' => 'Datum',
+            'moinframe.loop.panel.drawer.page' => 'Seite',
+            'moinframe.loop.panel.drawer.replies' => 'Antworten',
+            'moinframe.loop.panel.drawer.noReplies' => 'Noch keine Antworten.',
+            'moinframe.loop.panel.drawer.status.open' => 'Offen',
+            'moinframe.loop.panel.drawer.status.resolved' => 'Erledigt',
+            'moinframe.loop.panel.resolve.confirm' => 'Diesen Kommentar als erledigt markieren?',
+            'moinframe.loop.panel.unresolve.confirm' => 'Diesen Kommentar wieder öffnen?'
         ]
     ],
     'hooks' => [

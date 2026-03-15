@@ -65,6 +65,25 @@ class App
         return $comments;
     }
     /**
+     * Gets a single comment by ID with its replies
+     * @param int $id Comment ID
+     * @return Comment|null The comment or null if not found
+     */
+    public static function getComment(int $id): ?Comment
+    {
+        try {
+            $db = self::db();
+            $data = $db::getCommentById($id);
+            if ($data === null) {
+                return null;
+            }
+            return Comment::fromArray($data);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
      * Get comments by kirby page
      * @param Page $page
      * @param string $lang Language code
