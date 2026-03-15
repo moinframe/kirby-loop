@@ -34,7 +34,8 @@
           </template>
           <div class="k-items k-list-items" data-layout="list">
             <k-item v-for="item in group.items" :key="item.id" :text="item.text" :info="item.info"
-              :options="item.options" :buttons="item.buttons" :image="item.image" @option="(e) => onOption(e, item)">
+              :options="item.options" :buttons="item.buttons" :image="item.image" @option="(e) => onOption(e, item)"
+              @click="(e) => onItemClick(e, item.commentId)">
               <span slot="image" :data-comment-id="item.id"
                 :style="`--back: var(--color-${item.image.back});--color: var(--color-${item.image.color});`">
                 <k-icon-frame :icon="item.image.icon" :back="item.image.back" :color="item.image.color" />
@@ -96,13 +97,13 @@ const items = computed(() =>
       },
       pagePath: c.pagePath,
       resolved,
-      buttons: [
-        {
-          text: t('moinframe.loop.panel.drawer.open'),
-          click: () => openDrawer(c.id)
-        }
-      ],
+      buttons: [],
       options: [
+        {
+          icon: "edit",
+          text: t('moinframe.loop.panel.drawer.open'),
+          click: "openDrawer"
+        },
         ...(c.pagePath
           ? [{ text: t('moinframe.loop.panel.openPage'), icon: "open", click: "openPage" }]
           : []),
@@ -130,6 +131,11 @@ const groupedItems = computed(() => {
   }
   return Object.values(groups);
 });
+
+function onItemClick(e, id) {
+  if (!e.target.closest('.k-item-title')) return;
+  openDrawer(id);
+}
 
 function openDrawer(id) {
   panel.drawer.open('loop/comments/' + id);
@@ -168,6 +174,8 @@ async function onOption(action, item) {
     }
   } else if (action === "openPage" && item.pagePath) {
     window.open(`${window.location.origin}/panel/${item.pagePath}`, "_blank");
+  } else if (action === "openDrawer") {
+    openDrawer(item.commentId);
   }
 }
 
@@ -192,6 +200,10 @@ onMounted(() => {
 
 .k-loop-group+.k-loop-group {
   margin-top: var(--spacing-6);
+}
+
+.k-loop-group .k-item-title {
+  cursor: pointer;
 }
 
 .k-loop-group-label {
