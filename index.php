@@ -115,7 +115,24 @@ Kirby::plugin('moinframe/loop', [
             'moinframe.loop.ui.time.hour_ago' => 'an hour ago',
             'moinframe.loop.ui.time.hours_ago' => '{count} hours ago',
             'moinframe.loop.ui.time.yesterday' => 'yesterday',
-            'moinframe.loop.ui.time.days_ago' => '{count} days ago'
+            'moinframe.loop.ui.time.days_ago' => '{count} days ago',
+
+            // Panel area translations
+            'moinframe.loop.panel.label' => 'Feedback',
+            'moinframe.loop.panel.refresh' => 'Refresh',
+            'moinframe.loop.panel.noComments' => 'No comments yet.',
+            'moinframe.loop.panel.unknownPage' => 'Unknown page',
+            'moinframe.loop.panel.replies' => 'replies',
+            'moinframe.loop.panel.stats.total' => 'Total',
+            'moinframe.loop.panel.stats.open' => 'Open',
+            'moinframe.loop.panel.stats.resolved' => 'Resolved',
+            'moinframe.loop.panel.stats.today' => 'Today',
+            'moinframe.loop.panel.resolve' => 'Resolve',
+            'moinframe.loop.panel.unresolve' => 'Reopen',
+            'moinframe.loop.panel.openPage' => 'Open page',
+            'moinframe.loop.panel.filter.all' => 'All',
+            'moinframe.loop.panel.filter.open' => 'Open',
+            'moinframe.loop.panel.filter.resolved' => 'Resolved'
         ],
         'de' => [
             // General errors
@@ -214,7 +231,24 @@ Kirby::plugin('moinframe/loop', [
             'moinframe.loop.ui.time.hour_ago' => 'vor einer Stunde',
             'moinframe.loop.ui.time.hours_ago' => 'vor {count} Stunden',
             'moinframe.loop.ui.time.yesterday' => 'gestern',
-            'moinframe.loop.ui.time.days_ago' => 'vor {count} Tagen'
+            'moinframe.loop.ui.time.days_ago' => 'vor {count} Tagen',
+
+            // Panel area translations
+            'moinframe.loop.panel.label' => 'Feedback',
+            'moinframe.loop.panel.refresh' => 'Aktualisieren',
+            'moinframe.loop.panel.noComments' => 'Noch keine Kommentare.',
+            'moinframe.loop.panel.unknownPage' => 'Unbekannte Seite',
+            'moinframe.loop.panel.replies' => 'Antworten',
+            'moinframe.loop.panel.stats.total' => 'Gesamt',
+            'moinframe.loop.panel.stats.open' => 'Offen',
+            'moinframe.loop.panel.stats.resolved' => 'Erledigt',
+            'moinframe.loop.panel.stats.today' => 'Heute',
+            'moinframe.loop.panel.resolve' => 'Erledigen',
+            'moinframe.loop.panel.unresolve' => 'Wieder öffnen',
+            'moinframe.loop.panel.openPage' => 'Seite öffnen',
+            'moinframe.loop.panel.filter.all' => 'Alle',
+            'moinframe.loop.panel.filter.open' => 'Offen',
+            'moinframe.loop.panel.filter.resolved' => 'Erledigt'
         ]
     ],
     'hooks' => [
@@ -227,6 +261,8 @@ Kirby::plugin('moinframe/loop', [
             return $html;
         }
     ],
+    'areas'    => require __DIR__ . '/src/extensions/areas.php',
+    'api'      => ['routes' => require __DIR__ . '/src/extensions/api.php'],
     'routes' => Routes::register(),
     'snippets' => [
         'loop/app' => __DIR__ . '/snippets/loop/app.php'
