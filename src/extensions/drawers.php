@@ -1,6 +1,8 @@
 <?php
 
 use Moinframe\Loop\App;
+use Kirby\Toolkit\A;
+use Kirby\Toolkit\Str;
 
 return [
     'loop/comments/(:num)' => [
@@ -12,6 +14,7 @@ return [
 
             $isResolved = $comment->status->value === 'RESOLVED';
             $author = $comment->resolveAuthor();
+            $replies = [];
 
             // Resolve page info
             $page = kirby()->page('page://' . $comment->page);
@@ -24,33 +27,32 @@ return [
             // Format replies as KirbyText
             $replyCount = count($comment->replies);
             if ($replyCount > 0) {
-                $parts = [];
                 foreach ($comment->replies as $reply) {
                     $replyAuthor = $reply->resolveAuthor();
                     $replyDate = date('Y-m-d H:i', $reply->timestamp);
-                    $parts[] = "<strong>{$replyAuthor}</strong> ({$replyDate})<br />{$reply->comment}";
+                    $replies['reply-' . $reply->id] = [
+                        'type'  => 'info',
+                        'theme' => 'text',
+                        'label' => "",
+                        'text'  => "<strong>{$replyAuthor}</strong> ({$replyDate})<br />{$reply->comment}"
+                    ];
                 }
-                $repliesText = implode("\n\n---\n\n", $parts);
             } else {
-                $repliesText = t('moinframe.loop.panel.drawer.noReplies');
+                $replies['reply-0'] = [
+                    'type'  => 'info',
+                    'theme' => 'empty',
+                    'label' => "",
+                    'text'  => t('moinframe.loop.panel.drawer.noReplies')
+                ];
             }
-
-            /** @var string $repliesLabel */
-            $repliesLabel = t('moinframe.loop.panel.drawer.replies');
 
             return [
                 'component' => 'k-form-drawer',
                 'props' => [
                     'title' => t('moinframe.loop.panel.drawer.comment'),
-                    'icon'  => $isResolved ? 'check' : 'circle',
+                    'icon'  => 'chat',
+                    'id' => 'loop-comment-drawer',
                     'fields' => [
-                        'statusInfo' => [
-                            'type'  => 'info',
-                            'theme' => $isResolved ? 'positive' : 'warning',
-                            'text'  => $isResolved
-                                ? t('moinframe.loop.panel.drawer.status.resolved')
-                                : t('moinframe.loop.panel.drawer.status.open'),
-                        ],
                         'comment' => [
                             'type'     => 'info',
                             'theme'    => 'text',
@@ -61,31 +63,44 @@ return [
                             'type'     => 'text',
                             'label'    => t('moinframe.loop.panel.drawer.author'),
                             'disabled' => true,
-                            'width'    => '1/3',
+                            'icon'     => 'user',
+                            'width'    => '1/2',
                         ],
                         'date' => [
                             'type'     => 'text',
                             'label'    => t('moinframe.loop.panel.drawer.date'),
                             'disabled' => true,
-                            'width'    => '1/3',
+                            'icon'     => 'calendar',
+                            'width'    => '1/2',
                         ],
                         'page' => [
                             'type'     => 'text',
                             'label'    => t('moinframe.loop.panel.drawer.page'),
-                            'width'    => '1/3',
+                            'width'    => '1/2',
+                            'icon'     => 'page',
                             'disabled' => true,
                         ],
-                        'repliesInfo' => [
-                            'type'  => 'info',
-                            'theme' =>  $replyCount > 0  ? 'text' : 'empty',
-                            'label' => $repliesLabel . " ({$replyCount})",
-                            'text'  => $repliesText,
+                        'resolved' => [
+                            'type'  => 'toggle',
+                            'disabled' => true,
+                            'label' => t('moinframe.loop.panel.drawer.status.resolved'),
+                            'width' => '1/2',
+                            'text' => [
+                                t('moinframe.loop.panel.drawer.status.open'),
+                                t('moinframe.loop.panel.drawer.status.resolved')
+                            ],
                         ],
+                        'repliesCount' => [
+                            'type'  => 'headline',
+                            'label' =>  tt('moinframe.loop.panel.drawer.replies', ['count' => $replyCount]),
+                        ],
+                        ...$replies
                     ],
                     'value' => [
                         'author'  => $author,
                         'date'    => $date,
                         'page'    => $pageTitle,
+                        'resolved'  => $isResolved,
                     ],
                 ],
             ];
