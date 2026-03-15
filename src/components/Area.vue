@@ -33,8 +33,13 @@
             </k-button-group>
           </template>
           <div class="k-items k-list-items" data-layout="list">
-            <k-item v-for="item in group.items" :key="item.id" :text="item.text" :info="item.info" :image="item.image"
-              :options="item.options" :buttons="item.buttons" @option="(e) => onOption(e, item)"></k-item>
+            <k-item v-for="item in group.items" :key="item.id" :text="item.text" :info="item.info"
+              :options="item.options" :buttons="item.buttons" :image="item.image" @option="(e) => onOption(e, item)">
+              <span slot="image" :data-comment-id="item.id"
+                :style="`--back: var(--color-${item.image.back});--color: var(--color-${item.image.color});`">
+                <k-icon-frame :icon="item.image.icon" :back="item.image.back" :color="item.image.color" />
+              </span>
+            </k-item>
           </div>
         </k-section>
       </template>
@@ -85,9 +90,9 @@ const items = computed(() =>
       pageUrl: c.pageUrl,
       panelUrl: c.panelUrl,
       image: {
-        icon: resolved ? "check" : "circle",
-        back: resolved ? "green-200" : "blue-200",
-        color: resolved ? "green-600" : "blue-600",
+        icon: "",
+        back: resolved ? "green-500" : "blue-400",
+        color: resolved ? "green-800" : "blue-800",
       },
       pagePath: c.pagePath,
       resolved,
@@ -191,5 +196,37 @@ onMounted(() => {
 
 .k-loop-group-label {
   margin-bottom: var(--spacing-2);
+}
+
+[data-comment-id] {
+  position: relative;
+}
+
+[data-comment-id] .k-frame {
+  background: none;
+}
+
+[data-comment-id]::before {
+  content: "";
+  position: absolute;
+  top: 11%;
+  left: 11%;
+  width: 78%;
+  height: 78%;
+  border-radius: 100%;
+  z-index: 2;
+  background: var(--back);
+}
+
+[data-comment-id]::after {
+  content: attr(data-comment-id);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 0.75rem;
+  font-weight: var(--font-bold);
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  color: var(--color);
 }
 </style>
