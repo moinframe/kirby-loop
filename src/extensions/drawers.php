@@ -21,15 +21,15 @@ return [
             $pageTitle = $page !== null ? $page->title()->value() : t('moinframe.loop.panel.unknownPage');
             $pagePanelUrl = $page !== null ? $page->panel()->url(true) : null;
 
-            // Format timestamp server-side
-            $date = date('Y-m-d H:i', $comment->timestamp);
+            // Format timestamp using the current Panel language locale
+            $date = App::formatDate($comment->timestamp);
 
             // Format replies as KirbyText
             $replyCount = count($comment->replies);
             if ($replyCount > 0) {
                 foreach ($comment->replies as $reply) {
                     $replyAuthor = $reply->resolveAuthor();
-                    $replyDate = date('Y-m-d H:i', $reply->timestamp);
+                    $replyDate = App::formatDate($reply->timestamp);
                     $replies['reply-' . $reply->id] = [
                         'type'  => 'info',
                         'theme' => 'text',

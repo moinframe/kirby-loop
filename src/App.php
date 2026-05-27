@@ -23,6 +23,33 @@ class App
     }
 
     /**
+     * Format a timestamp for display using the current Panel language locale.
+     * Falls back to ISO format when the intl extension is unavailable.
+     * @param int $timestamp Unix timestamp
+     * @return string
+     */
+    public static function formatDate(int $timestamp): string
+    {
+        if (class_exists(\IntlDateFormatter::class) === true) {
+            $locale = kirby()->user()?->language() ?? 'en';
+
+            $formatter = new \IntlDateFormatter(
+                $locale,
+                \IntlDateFormatter::MEDIUM,
+                \IntlDateFormatter::SHORT
+            );
+
+            $formatted = $formatter->format($timestamp);
+
+            if ($formatted !== false) {
+                return $formatted;
+            }
+        }
+
+        return date('Y-m-d H:i', $timestamp);
+    }
+
+    /**
      * Renders the loop component HTML
      * @return string Component HTML
      */
