@@ -19,6 +19,17 @@ return [
                 $data['pageUrl'] = $page !== null ? $page->url() : null;
                 $data['panelUrl'] = $page !== null ? $page->panel()->url() : null;
 
+                if ($page !== null) {
+                    $titlePath = [];
+                    foreach ($page->parents()->flip() as $parent) {
+                        $titlePath[] = $parent->title()->value();
+                    }
+                    $titlePath[] = $page->title()->value();
+                } else {
+                    $titlePath = [$data['pageTitle']];
+                }
+                $data['titlePath'] = $titlePath;
+
                 $result[] = $data;
             }
 

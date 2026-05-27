@@ -24,7 +24,7 @@
 
       <template v-else>
 
-        <k-section v-for="group in groupedItems" :key="group.pageTitle" class="k-loop-group" :label="group.pageTitle">
+        <k-section v-for="group in groupedItems" :key="group.pageId" class="k-loop-group" :label="group.label">
           <template slot="options">
             <k-button-group slot="buttons">
               <k-button icon="edit" variant="filled" size="sm" :link="group.panelUrl"
@@ -87,7 +87,9 @@ const items = computed(() =>
       commentId: c.id,
       text: c.comment.length > 80 ? c.comment.substring(0, 80) + "…" : c.comment,
       info: `${c.author}${replyText}`,
+      pageId: c.page,
       pageTitle: c.pageTitle,
+      titlePath: c.titlePath ?? [c.pageTitle],
       pageUrl: c.pageUrl,
       panelUrl: c.panelUrl,
       image: {
@@ -115,13 +117,28 @@ const items = computed(() =>
   })
 );
 
+function compareTitlePath(a, b) {
+  const pa = a.titlePath;
+  const pb = b.titlePath;
+  const len = Math.min(pa.length, pb.length);
+  for (let i = 0; i < len; i++) {
+    const cmp = pa[i].localeCompare(pb[i], undefined, { sensitivity: "base", numeric: true });
+    if (cmp !== 0) return cmp;
+  }
+  // Shorter path (the ancestor) sorts before its descendants.
+  return pa.length - pb.length;
+}
+
 const groupedItems = computed(() => {
   const groups = {};
   for (const item of items.value) {
-    const key = item.pageTitle;
+    const key = item.pageId;
     if (!groups[key]) {
       groups[key] = {
-        pageTitle: key,
+        pageId: key,
+        pageTitle: item.pageTitle,
+        titlePath: item.titlePath,
+        label: item.titlePath.join(" › "),
         pageUrl: item.pageUrl,
         panelUrl: item.panelUrl,
         items: [],
@@ -129,7 +146,7 @@ const groupedItems = computed(() => {
     }
     groups[key].items.push(item);
   }
-  return Object.values(groups);
+  return Object.values(groups).sort(compareTitlePath);
 });
 
 function onItemClick(e, id) {
