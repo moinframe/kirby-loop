@@ -282,6 +282,7 @@ Kirby::plugin('moinframe/loop', [
         }
     ],
     'areas'    => require __DIR__ . '/src/extensions/areas.php',
+    'sections' => require __DIR__ . '/src/extensions/sections.php',
     'api'      => ['routes' => require __DIR__ . '/src/extensions/api.php'],
     'routes' => Routes::register(),
     'snippets' => [
