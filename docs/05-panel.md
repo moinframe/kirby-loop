@@ -85,3 +85,16 @@ columns:
         type: loop-comments
         label: Feedback
 ```
+
+## Deep linking to a comment
+
+In the **Feedback area** and the **comments section**, clicking a comment's
+colored marker opens the page in a new tab and jumps to that comment.
+
+The link uses the anchor `#loop-comment-{id}`, e.g.
+`https://example.com/blog/my-post#loop-comment-42`. You can also share these links
+directly.
+
+When such a link is opened, the on-page widget opens its panel, scrolls the
+comment's marker into view and briefly highlights it (resolved comments, which
+have no marker, are revealed in the panel list instead).
