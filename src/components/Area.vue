@@ -36,8 +36,9 @@
             <k-item v-for="item in group.items" :key="item.id" :text="item.text" :info="item.info"
               :options="item.options" :buttons="item.buttons" :image="item.image" @option="(e) => onOption(e, item)"
               @click="(e) => onItemClick(e, item.commentId)">
-              <span slot="image" :data-comment-id="item.id"
-                :style="`--back: var(--color-${item.image.back});--color: var(--color-${item.image.color});`">
+              <span slot="image" :data-comment-id="item.id" :title="t('moinframe.loop.panel.openOnPage')"
+                :style="`--back: var(--color-${item.image.back});--color: var(--color-${item.image.color});`"
+                @click.stop="openOnPage(item)">
                 <k-icon-frame :icon="item.image.icon" :back="item.image.back" :color="item.image.color" />
               </span>
             </k-item>
@@ -156,6 +157,11 @@ function onItemClick(e, id) {
 
 function openDrawer(id) {
   panel.drawer.open('loop/comments/' + id);
+}
+
+function openOnPage(item) {
+  if (!item.pageUrl) return;
+  window.open(`${item.pageUrl}#loop-comment-${item.commentId}`, "_blank");
 }
 
 async function load() {

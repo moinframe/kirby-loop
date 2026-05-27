@@ -4,6 +4,7 @@
    column (data-has-image=true). */
 [data-comment-id] {
   position: relative;
+  cursor: pointer;
 }
 
 [data-comment-id] .k-frame {

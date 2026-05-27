@@ -52,6 +52,7 @@ return [
                         'author'     => $comment->resolveAuthor(),
                         'status'     => $comment->status->value,
                         'replyCount' => count($comment->replies),
+                        'pageUrl'    => $page->url(),
                     ];
                 }
 
