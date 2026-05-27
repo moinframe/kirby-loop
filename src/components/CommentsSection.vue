@@ -130,6 +130,10 @@ onMounted(load);
   margin-bottom: var(--spacing-2);
 }
 
+.k-loop-comments-section .k-item-title {
+  cursor: pointer;
+}
+
 .k-loop-section-loader {
   margin-inline: auto;
   margin-block: var(--spacing-5);
