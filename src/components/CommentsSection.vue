@@ -49,7 +49,8 @@ const comments = ref([]);
 const items = computed(() =>
   comments.value.map((c) => {
     const resolved = c.status === "RESOLVED";
-    const replyText = c.replyCount > 0 ? ` · ${c.replyCount} ${t("moinframe.loop.panel.replies")}` : "";
+    const replyLabel = t(c.replyCount === 1 ? "moinframe.loop.panel.reply" : "moinframe.loop.panel.replies");
+    const replyText = c.replyCount > 0 ? ` · ${c.replyCount} ${replyLabel}` : "";
 
     return {
       id: c.id,

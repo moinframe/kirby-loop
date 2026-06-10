@@ -120,8 +120,9 @@ Kirby::plugin('moinframe/loop', [
             // Panel area translations
             'moinframe.loop.panel.label' => 'Feedback',
             'moinframe.loop.panel.refresh' => 'Refresh',
-            'moinframe.loop.panel.noComments' => 'No comments yet.',
+            'moinframe.loop.panel.noComments' => 'No comments.',
             'moinframe.loop.panel.unknownPage' => 'Unknown page',
+            'moinframe.loop.panel.reply' => 'reply',
             'moinframe.loop.panel.replies' => 'replies',
             'moinframe.loop.panel.resolve' => 'Resolve',
             'moinframe.loop.panel.unresolve' => 'Reopen',
@@ -247,8 +248,9 @@ Kirby::plugin('moinframe/loop', [
             // Panel area translations
             'moinframe.loop.panel.label' => 'Feedback',
             'moinframe.loop.panel.refresh' => 'Aktualisieren',
-            'moinframe.loop.panel.noComments' => 'Noch keine Kommentare.',
+            'moinframe.loop.panel.noComments' => 'Keine Kommentare.',
             'moinframe.loop.panel.unknownPage' => 'Unbekannte Seite',
+            'moinframe.loop.panel.reply' => 'Antwort',
             'moinframe.loop.panel.replies' => 'Antworten',
             'moinframe.loop.panel.resolve' => 'Erledigen',
             'moinframe.loop.panel.unresolve' => 'Wieder öffnen',

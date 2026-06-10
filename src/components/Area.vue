@@ -81,7 +81,8 @@ const items = computed(() =>
   filteredComments.value.map((c) => {
     const resolved = c.status === "RESOLVED";
     const replyCount = (c.replies ?? []).length;
-    const replyText = replyCount > 0 ? ` · ${replyCount} ${t('moinframe.loop.panel.replies')}` : "";
+    const replyLabel = t(replyCount === 1 ? 'moinframe.loop.panel.reply' : 'moinframe.loop.panel.replies');
+    const replyText = replyCount > 0 ? ` · ${replyCount} ${replyLabel}` : "";
 
     return {
       id: c.id,
