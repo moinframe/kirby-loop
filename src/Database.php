@@ -107,6 +107,43 @@ class Database
 
 
     /**
+     * Retrieves a single comment by ID with its replies
+     * @param int $id Comment ID
+     * @return array<mixed>|null Comment data with nested replies, or null if not found
+     */
+    public static function getCommentById(int $id): ?array
+    {
+        try {
+            $comment = self::tableComments()
+                ->select('*')
+                ->where('id', '=', $id)
+                ->first();
+
+            if ($comment === null) {
+                return null;
+            }
+
+            $commentArray = $comment->toArray();
+
+            // Fetch replies for this comment
+            $replies = self::tableReplies()
+                ->select('*')
+                ->where('parentId', '=', $id)
+                ->order('timestamp ASC')
+                ->all();
+
+            $commentArray['replies'] = [];
+            foreach ($replies as $reply) {
+                $commentArray['replies'][] = $reply->toArray();
+            }
+
+            return $commentArray;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
      * Retrieves all comments from the database
      * @return Collection Array of comments
      */

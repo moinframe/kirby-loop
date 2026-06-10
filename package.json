@@ -6,15 +6,20 @@
 	"scripts": {
 		"dev": "pnpm --filter=loop-frontend run dev",
 		"build": "pnpm --filter=loop-frontend run build",
+		"dev:panel": "kirbyup src/index.js --watch",
+		"build:panel": "kirbyup src/index.js",
+		"build:all": "pnpm build && pnpm build:panel",
 		"release": "release-it"
 	},
 	"keywords": [],
 	"author": "Justus Kraft <justus@moinfra.me>",
 	"license": "MIT",
-	"packageManager": "pnpm@10.12.1+sha512.f0dda8580f0ee9481c5c79a1d927b9164f2c478e90992ad268bbb2465a736984391d6333d2c327913578b2804af33474ca554ba29c04a8b13060a717675ae3ac",
+	"packageManager": "pnpm@11.5.3+sha512.7ac1c919341c213a34dc0d02afb7143c5c26ac26ee8c4782deea821b8ac64d2134a081fd8941dae6e29bbb48f58dfc2b7fbceeccc07cb2f09d219d342a4969ed",
 	"devDependencies": {
-		"@release-it/bumper": "^7.0.1",
-		"@release-it/conventional-changelog": "^10.0.0",
-		"release-it": "^18.1.2"
+		"@release-it/bumper": "^7.0.6",
+		"@release-it/conventional-changelog": "^11.0.1",
+		"kirbyup": "^3.4.1",
+		"kirbyuse": "^1.3.1",
+		"release-it": "^20.2.0"
 	}
 }

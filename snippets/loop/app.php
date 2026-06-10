@@ -45,7 +45,7 @@ function getTranslations(): array
         'ui.panel.menu.open' => t('moinframe.loop.ui.panel.menu.open', 'Open menu', $customLang),
         'ui.panel.menu.filter.title' => t('moinframe.loop.ui.panel.menu.filter.title', 'Show Comments', $customLang),
         'ui.panel.no.resolved' => t('moinframe.loop.ui.panel.no.resolved', 'No resolved comments yet.', $customLang),
-        
+
         // Time formatting
         'ui.time.just_now' => t('moinframe.loop.ui.time.just_now', 'just now', $customLang),
         'ui.time.minute_ago' => t('moinframe.loop.ui.time.minute_ago', 'a minute ago', $customLang),
@@ -64,7 +64,7 @@ if (Options::enabled() && (Options::public() || kirby()->user() !== null)): ?>
         position="<?= Options::position() ?>"
         language="<?= kirby()->language() ? kirby()->language()->code() : '' ?>"
         apiBase="<?= kirby()->site()->url() ?>"
-        pageId="<?= $page->id() ?>"
+        pageId="<?= page()->id() ?>"
         authenticated="<?= kirby()->user() !== null ? 'true' : 'false' ?>"
         welcome-enabled="<?= Options::welcomeDialogEnabled() ? 'true' : 'false' ?>"
         welcome-headline="<?= esc(Options::welcomeDialogHeadline()) ?>"

@@ -1,0 +1,36 @@
+/* Comment-id badge shared by the feedback area and the per-page section.
+   Renders the comment's id as a colored dot inside the k-item image frame.
+   Requires the item to pass an `image` prop so k-item reserves the frame
+   column (data-has-image=true). */
+[data-comment-id] {
+  position: relative;
+  cursor: pointer;
+}
+
+[data-comment-id] .k-frame {
+  background: none;
+}
+
+[data-comment-id]::before {
+  content: "";
+  position: absolute;
+  top: 11%;
+  left: 11%;
+  width: 78%;
+  height: 78%;
+  border-radius: 100%;
+  z-index: 2;
+  background: var(--back);
+}
+
+[data-comment-id]::after {
+  content: attr(data-comment-id);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 0.75rem;
+  font-weight: var(--font-bold);
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  color: var(--color);
+}

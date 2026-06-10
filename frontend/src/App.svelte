@@ -1,7 +1,7 @@
 <svelte:options customElement="kirby-loop" />
 
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onMount, onDestroy, tick } from "svelte";
   import Header from "./lib/Header.svelte";
   import Marker from "./lib/Marker.svelte";
   import Panel from "./lib/Panel.svelte";
@@ -11,7 +11,7 @@
   import CommentDialog from "./lib/CommentDialog.svelte";
   import WelcomeDialog from "./lib/WelcomeDialog.svelte";
   import { formData, reset } from "./store/form.svelte";
-  import { overlay, guestName } from "./store/ui.svelte";
+  import { overlay, guestName, panel } from "./store/ui.svelte";
   import { setTranslations } from "./store/translations.svelte";
   import type {
     LoopProps,
@@ -70,6 +70,65 @@
   const scrollIntoView = (id: string) => {
     const marker = $host().shadowRoot?.getElementById(`marker-${id}`);
     if (marker) marker.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
+  /**
+   * Focus a comment coming from a deep link (#loop-comment-{id}):
+   * open the panel, reveal resolved comments if needed, scroll to the
+   * marker (or its panel entry when there is no marker) and pulse it.
+   * @param id The id of the comment
+   */
+  const focusComment = async (id: number) => {
+    const comment = store.comments.find((c) => c.id === id);
+    if (!comment) return;
+
+    panel.open = true;
+    panel.currentCommentId = id;
+    if (comment.status === "RESOLVED") {
+      panel.showResolvedOnly = true;
+    }
+
+    // Wait for the panel/markers to render before scrolling.
+    await tick();
+    requestAnimationFrame(() => {
+      const root = $host().shadowRoot;
+      // Page: bring the marker into view (resolved comments have none).
+      root
+        ?.getElementById(`marker-${id}`)
+        ?.scrollIntoView({ behavior: "smooth", block: "center" });
+      // Sidebar: bring the matching comment thread into view.
+      root
+        ?.getElementById(`comment-${id}`)
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+
+      panel.pulseMarkerId = id;
+      setTimeout(() => {
+        if (panel.pulseMarkerId === id) panel.pulseMarkerId = 0;
+      }, 3000);
+    });
+  };
+
+  /**
+   * Open the panel and scroll the matching comment thread into view
+   * when a marker on the page is clicked.
+   * @param id The id of the comment
+   */
+  const selectComment = (id: number) => {
+    panel.open = true;
+    panel.currentCommentId = id;
+    requestAnimationFrame(() => {
+      $host()
+        .shadowRoot?.getElementById(`comment-${id}`)
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
+
+  /**
+   * Read the current URL hash and focus the referenced comment, if any.
+   */
+  const handleDeepLink = () => {
+    const match = window.location.hash.match(/^#loop-comment-(\d+)$/);
+    if (match) focusComment(Number(match[1]));
   };
 
   /**
@@ -155,6 +214,12 @@
 
     showLoop = await getComments(pageId);
 
+    // Honor a deep link to a specific comment (#loop-comment-{id}).
+    if (showLoop) {
+      handleDeepLink();
+      window.addEventListener("hashchange", handleDeepLink);
+    }
+
     // Initialize guest name from session storage
     guestName.get();
 
@@ -173,6 +238,10 @@
     else if (!isAuthenticated && !guestName.get() && showLoop) {
       welcomeDialog?.showModal();
     }
+  });
+
+  onDestroy(() => {
+    window.removeEventListener("hashchange", handleDeepLink);
   });
 
   $effect(() => {
@@ -200,7 +269,7 @@
   <Panel {scrollIntoView} {handleSubmit} {cancel} />
 
   {#each visibleComments as comment (comment.id)}
-    <Marker {comment} />
+    <Marker {comment} {selectComment} />
   {/each}
 
   <CommentDialog {handleSubmit} {showModal} {newMarker} {cancel} />

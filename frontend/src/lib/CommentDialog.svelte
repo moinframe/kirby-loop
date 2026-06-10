@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { tick } from "svelte";
   import { getDialogPosition } from "../composables/getDialogPosition";
   import CommentForm from "./CommentForm.svelte";
   const { handleSubmit, showModal, newMarker, cancel } = $props();
@@ -13,6 +14,7 @@
       dialogElement.showModal();
       dialogPosition = getDialogPosition(newMarker, dialogElement);
       ready = true;
+      tick().then(() => dialogElement.querySelector("textarea")?.focus());
     } else {
       dialogElement.close();
       ready = false;

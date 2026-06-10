@@ -122,7 +122,7 @@ Create a new comment on a page.
 - `pagePositionY` (number): Y position on the page
 - `pageId` (string): Kirby page ID or 'home'
 
-**Response:**
+**Response:** `201 Created`
 ```json
 {
     "status": "ok",
@@ -167,7 +167,7 @@ Add a reply to an existing comment.
 - `comment` (string): The reply text (HTML stripped and sanitized)
 - `parentId` (number): ID of the parent comment
 
-**Response:**
+**Response:** `201 Created`
 ```json
 {
     "status": "ok",

@@ -45,7 +45,7 @@ class Options
      * Check if loop is enabled for the current page
      * @return bool
      */
-    public static function enabled(): bool
+    public static function enabled(?\Kirby\Cms\Page $page = null): bool
     {
         $enabledOption = option('moinframe.loop.enabled', true);
 
@@ -56,7 +56,7 @@ class Options
 
         // If it's a callable, execute it with the current page
         if (is_callable($enabledOption)) {
-            $page = kirby()->site()->page();
+            $page = $page ?? page();
             return (bool) $enabledOption($page);
         }
 

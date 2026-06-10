@@ -5,7 +5,10 @@
   import useResizeHandler from "../composables/useResizeHandler";
   import { getDocumentHeight } from "../composables/getDocumentHeight";
   import Button from "./Button.svelte";
-  const { comment }: { comment: Comment } = $props();
+  const {
+    comment,
+    selectComment,
+  }: { comment: Comment; selectComment: (id: number) => void } = $props();
 
   let shouldPulse = $state(false);
 
@@ -108,14 +111,7 @@
   }
 
   function handleClick() {
-    panel.open = true;
-    // Scroll to comment element
-    const commentElement = document
-      .querySelector(`loop`)
-      ?.shadowRoot?.querySelector(`#comment-${comment.id}`);
-    if (commentElement) {
-      commentElement.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    selectComment(comment.id);
   }
 </script>
 

@@ -115,7 +115,36 @@ Kirby::plugin('moinframe/loop', [
             'moinframe.loop.ui.time.hour_ago' => 'an hour ago',
             'moinframe.loop.ui.time.hours_ago' => '{count} hours ago',
             'moinframe.loop.ui.time.yesterday' => 'yesterday',
-            'moinframe.loop.ui.time.days_ago' => '{count} days ago'
+            'moinframe.loop.ui.time.days_ago' => '{count} days ago',
+
+            // Panel area translations
+            'moinframe.loop.panel.label' => 'Feedback',
+            'moinframe.loop.panel.refresh' => 'Refresh',
+            'moinframe.loop.panel.noComments' => 'No comments.',
+            'moinframe.loop.panel.unknownPage' => 'Unknown page',
+            'moinframe.loop.panel.reply' => 'reply',
+            'moinframe.loop.panel.replies' => 'replies',
+            'moinframe.loop.panel.resolve' => 'Resolve',
+            'moinframe.loop.panel.unresolve' => 'Reopen',
+            'moinframe.loop.panel.openPage' => 'Open page',
+            'moinframe.loop.panel.openOnPage' => 'Open on page',
+            'moinframe.loop.panel.filter.all' => 'All',
+            'moinframe.loop.panel.filter.open' => 'Open',
+            'moinframe.loop.panel.filter.resolved' => 'Resolved',
+            'moinframe.loop.panel.editPage' => 'Edit',
+
+            // Panel drawer translations
+            'moinframe.loop.panel.drawer.open' => 'View',
+            'moinframe.loop.panel.drawer.comment' => 'Comment',
+            'moinframe.loop.panel.drawer.author' => 'Author',
+            'moinframe.loop.panel.drawer.date' => 'Date',
+            'moinframe.loop.panel.drawer.page' => 'Page',
+            'moinframe.loop.panel.drawer.replies' => 'Replies ({count})',
+            'moinframe.loop.panel.drawer.noReplies' => 'No replies yet.',
+            'moinframe.loop.panel.drawer.status.open' => 'Open',
+            'moinframe.loop.panel.drawer.status.resolved' => 'Resolved',
+            'moinframe.loop.panel.resolve.confirm' => 'Mark this comment as resolved?',
+            'moinframe.loop.panel.unresolve.confirm' => 'Reopen this comment?'
         ],
         'de' => [
             // General errors
@@ -214,7 +243,36 @@ Kirby::plugin('moinframe/loop', [
             'moinframe.loop.ui.time.hour_ago' => 'vor einer Stunde',
             'moinframe.loop.ui.time.hours_ago' => 'vor {count} Stunden',
             'moinframe.loop.ui.time.yesterday' => 'gestern',
-            'moinframe.loop.ui.time.days_ago' => 'vor {count} Tagen'
+            'moinframe.loop.ui.time.days_ago' => 'vor {count} Tagen',
+
+            // Panel area translations
+            'moinframe.loop.panel.label' => 'Feedback',
+            'moinframe.loop.panel.refresh' => 'Aktualisieren',
+            'moinframe.loop.panel.noComments' => 'Keine Kommentare.',
+            'moinframe.loop.panel.unknownPage' => 'Unbekannte Seite',
+            'moinframe.loop.panel.reply' => 'Antwort',
+            'moinframe.loop.panel.replies' => 'Antworten',
+            'moinframe.loop.panel.resolve' => 'Erledigen',
+            'moinframe.loop.panel.unresolve' => 'Wieder öffnen',
+            'moinframe.loop.panel.openPage' => 'Seite öffnen',
+            'moinframe.loop.panel.openOnPage' => 'Auf der Seite öffnen',
+            'moinframe.loop.panel.filter.all' => 'Alle',
+            'moinframe.loop.panel.filter.open' => 'Offen',
+            'moinframe.loop.panel.filter.resolved' => 'Erledigt',
+            'moinframe.loop.panel.editPage' => 'Bearbeiten',
+
+            // Panel drawer translations
+            'moinframe.loop.panel.drawer.open' => 'Ansehen',
+            'moinframe.loop.panel.drawer.comment' => 'Kommentar',
+            'moinframe.loop.panel.drawer.author' => 'Autor',
+            'moinframe.loop.panel.drawer.date' => 'Datum',
+            'moinframe.loop.panel.drawer.page' => 'Seite',
+            'moinframe.loop.panel.drawer.replies' => 'Antworten ({count})',
+            'moinframe.loop.panel.drawer.noReplies' => 'Noch keine Antworten.',
+            'moinframe.loop.panel.drawer.status.open' => 'Offen',
+            'moinframe.loop.panel.drawer.status.resolved' => 'Erledigt',
+            'moinframe.loop.panel.resolve.confirm' => 'Diesen Kommentar als erledigt markieren?',
+            'moinframe.loop.panel.unresolve.confirm' => 'Diesen Kommentar wieder öffnen?'
         ]
     ],
     'hooks' => [
@@ -227,6 +285,9 @@ Kirby::plugin('moinframe/loop', [
             return $html;
         }
     ],
+    'areas'    => require __DIR__ . '/src/extensions/areas.php',
+    'sections' => require __DIR__ . '/src/extensions/sections.php',
+    'api'      => ['routes' => require __DIR__ . '/src/extensions/api.php'],
     'routes' => Routes::register(),
     'snippets' => [
         'loop/app' => __DIR__ . '/snippets/loop/app.php'
