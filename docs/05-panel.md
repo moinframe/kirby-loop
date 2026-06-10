@@ -11,6 +11,23 @@ Kirby Panel in two places: a global **Feedback area** and a per-page
 The plugin automatically registers a **Feedback** entry in the Panel menu.
 It lists every comment across the whole site, grouped by page.
 
+### Disabling the Feedback area
+
+The area is registered under the id `loop`. Its visibility is controlled by
+Kirby's built-in `access` permission, which defaults to allowing access. Set
+`access.loop` to `false` in a role blueprint to hide the menu entry for that
+role and block the area's API requests.
+
+Disable it for a specific role (e.g. editors):
+
+```yaml
+# site/blueprints/users/editor.yml
+permissions:
+  access:
+    loop: false
+```
+
+To disable it for everyone, add the same permission to every role blueprint or remove it from the menu by modifying `panel.menu` in your `config.php`. There is a simple to use plugin for that: [Kirby Panel Menu](https://github.com/moinframe/kirby-panel-menu).
 ## Per-page comments section
 
 Use the `loop-comments` section to show only the comments that belong to the
