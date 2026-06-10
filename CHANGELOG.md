@@ -1,5 +1,34 @@
 # Changelog
 
+## [1.1.0](///compare/v1.0.1...v1.1.0) (2026-06-10)
+
+### Features
+
+* add comment id as list icon 348fd5a
+* add deep linking to comments c641a5e
+* add optional section d8736fe
+* add panel area 9ee9342
+* add panel docs 61825d8
+* section on site fa2d0aa
+* sort by page title, group by parent 5017cf6
+* update area a8b8c55
+* update dependencies f802305
+
+### Bug Fixes
+
+* add $page as param to enabled option 0d582f5
+* add current page to enabled option method 6c2a7a3
+* add cursor pointer 783b1e9
+* focus the textarea when creating a new marker e58edfa
+* move bubble styles to index.css 6f07c24
+* open drawer on click on title 7a58e16
+* page id 3dddb53
+* rework comment drawer ui 7590549
+* send modified vars to next 223bc34
+* update translations, add one for a single reply 19677b1
+* use count in translation d4726b8
+* use language aware timestamps 5ad77da
+
 ## [1.0.1](///compare/v1.0.0...v1.0.1) (2025-07-08)
 
 ### Features
