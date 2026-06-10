@@ -25,17 +25,17 @@ return [
             'comments' => function () {
                 // $this is bound to the Section instance at runtime by Kirby.
                 // @phpstan-ignore variable.undefined
-                $page = $this->model();
+                $model = $this->model();
 
-                if ($page instanceof Page === false) {
-                    return [];
-                }
+                $comments = $model instanceof Page
+                    ? App::getCommentsByPage($model)
+                    : App::getComments();
 
                 // @phpstan-ignore variable.undefined
                 $status = $this->status;
                 $items  = [];
 
-                foreach (App::getCommentsByPage($page) as $comment) {
+                foreach ($comments as $comment) {
                     $resolved = $comment->status->value === 'RESOLVED';
 
                     if ($status === 'open' && $resolved === true) {
@@ -46,13 +46,17 @@ return [
                         continue;
                     }
 
+                    $pageUrl = $model instanceof Page
+                        ? $model->url()
+                        : (page($comment->page)?->url() ?? $comment->url);
+
                     $items[] = [
                         'id'         => $comment->id,
                         'comment'    => $comment->comment,
                         'author'     => $comment->resolveAuthor(),
                         'status'     => $comment->status->value,
                         'replyCount' => count($comment->replies),
-                        'pageUrl'    => $page->url(),
+                        'pageUrl'    => $pageUrl,
                     ];
                 }
 

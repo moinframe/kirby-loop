@@ -25,6 +25,8 @@ sections:
     type: loop-comments
 ```
 
+Placed on `site.yml`, the section is no longer scoped to a single page and lists **all comments across the site** instead. The `status` option still applies, so `status: open` on `site.yml` gives you every open comment site-wide.
+
 ### Options
 
 #### `label`
