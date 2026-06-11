@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.1](///compare/v1.1.0...v1.1.1) (2026-06-11)
+
+### Bug Fixes
+
+* Marker styles 0620816
+
 ## [1.1.0](///compare/v1.0.1...v1.1.0) (2026-06-10)
 
 ### Features
