@@ -283,3 +283,49 @@
   welcomeEnabled={isWelcomeEnabled}
   onDismiss={markWelcomeDismissed}
 />
+
+<style>
+  /*
+    Marker styles must live here on the host custom element so they are always
+    injected into the shadow root, regardless of whether a marker is present on
+    initial render. They target a child component's element, hence :global.
+  */
+  :global(.marker) {
+    position: var(--marker-position);
+    z-index: var(--marker-z-index);
+    transform: var(--marker-transform);
+    border-radius: var(--marker-border-radius);
+  }
+
+  :global(.marker--pulse) {
+    animation: kirby-loop-pulse 1.5s ease-in-out infinite;
+  }
+
+  /* -global- keeps the keyframes name unscoped so the :global rule above can reference it */
+  @keyframes -global-kirby-loop-pulse {
+    0% {
+      box-shadow:
+        0 0 0 0 var(--color-accent),
+        0 0 0 0 rgba(128, 128, 128, 0.3),
+        0 0 0 0 rgba(128, 128, 128, 0.2);
+    }
+    30% {
+      box-shadow:
+        0 0 0 8px transparent,
+        0 0 0 0 rgba(128, 128, 128, 0.3),
+        0 0 0 0 rgba(128, 128, 128, 0.2);
+    }
+    60% {
+      box-shadow:
+        0 0 0 8px rgba(128, 128, 128, 0.15),
+        0 0 0 12px transparent,
+        0 0 0 0 rgba(128, 128, 128, 0.2);
+    }
+    100% {
+      box-shadow:
+        0 0 0 16px transparent,
+        0 0 0 12px transparent,
+        0 0 0 8px transparent;
+    }
+  }
+</style>
