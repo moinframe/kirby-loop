@@ -1,49 +1,29 @@
 ![Kirby Loop](kirby-loop.png)
 # Kirby Loop
 
-Stay in the loop. A powerful visual feedback plugin for Kirby CMS that allows users to add comments directly on web pages by clicking on elements. Perfect for client reviews, content collaboration, and team feedback workflows.
+Stay in the loop. A visual feedback plugin for Kirby CMS: click anywhere on a page to leave a comment, reply in threads, and resolve discussions, right where the content lives. Made for client reviews and team feedback.
 
 ## Features
 
-- 🎯 **Click-to-comment**: Toggle between navigate mode for normal browsing and comment mode to click anywhere and add feedback
-- 🌍 **Multi-language support**: Full support for Kirby's multi-language sites with automatic language detection
-- 💬 **Threaded comments**: Reply to comments for contextual discussions
-- 🔒 **Authentication**: Choose whether to restrict access to authenticated users only or allow guest commenting
-- 🎨 **Theming**: Built-in light/dark themes with full customization support
-- ⚙️ **Auto-injection**: Automatically inject into all pages or manually control placement
-- 🗄️ **Local storage**: All data stored locally in SQLite - no external dependencies
-
-## How It Works
-
-Kirby Loop transforms your website into a collaborative workspace where teams can provide feedback directly on web pages.
-
-**Visual Context**: Users can click on any element to leave specific comments, creating a direct connection between feedback and content.
-
-**Streamlined Communication**: Team members, clients, and stakeholders can point out issues and suggest improvements right where they see them.
-
-**Organized Discussions**: Comments support threaded replies and can be marked as resolved to maintain a clean feedback pipeline.
-
-**Privacy & Data Control**: All feedback data is stored locally in a SQLite database on your server - no external services or cloud dependencies.
+- **Click-to-comment**: switch to comment mode and click any element to attach feedback to it
+- **Threaded discussions**: reply to comments and mark them as resolved
+- **Panel integration**: a global Feedback area in the Kirby Panel plus a per-page comments section for page blueprints
+- **Multi-language**: works with Kirby's multi-language sites, UI language auto-detected
+- **Public or users only**: restrict commenting to authenticated users or open it up to the public
+- **Theming**: light/dark themes included, custom themes possible
+- **Self-contained**: everything is stored in a local SQLite database, no external services
 
 ## Quick Start
 
-1. **Install**: `composer require moinframe/kirby-loop`
-2. **Use**: Kirby Loop is automatically active on all pages for authenticated users
-3. **Configure**: Customize settings in `site/config/config.php` (optional)
+```bash
+composer require moinframe/kirby-loop
+```
 
-## Documentation
+The feedback widget is automatically injected on all pages for authenticated users.
 
-Detailed documentation is available in the `docs/` folder:
+## Configuration
 
-- **[Installation Guide](https://moinfra.me/docs/moinframe-loop/01-installation)** - Complete installation instructions
-- **[Configuration Guide](https://moinfra.me/docs/moinframe-loop/02-configuration)** - All configuration options and advanced settings
-- **[Multi-Language Support](https://moinfra.me/docs/moinframe-loop/03-multi-language)** - Setup and customization for multi-language sites
-- **[API Reference](https://moinfra.me/docs/moinframe-loop/05-api)** - API documentation
-- **[Theming Guide](https://moinfra.me/docs/moinframe-loop/04-theming)** - Theme customization and creating custom themes
-
-## Basic Configuration
-
-Add these options to your `site/config/config.php`:
+All options go into `site/config/config.php`:
 
 ```php
 return [
@@ -61,7 +41,7 @@ return [
     // Set header position: 'top' or 'bottom' (default: 'top')
     'moinframe.loop.position' => 'bottom',
 
-    // Make feedback public (default: false - requires auth)
+    // Allow guest comments (default: false - requires auth)
     'moinframe.loop.public' => true,
 
     // Force UI language (default: null - auto-detect)
@@ -72,7 +52,29 @@ return [
 ];
 ```
 
-See the [Configuration Guide](https://moinfra.me/docs/moinframe-loop/02-configuration) for all available options.
+## Panel View
+
+![Panel UI of Loop](kirby-loop-panel-view.jpg)
+
+Since 1.1.0 comments also show up in the Kirby Panel. A global **Feedback** area in the Panel menu lists all comments across the site, grouped by page. There's also a `loop-comments` blueprint section to show a page's comments right where editors work:
+
+```yaml
+sections:
+  feedback:
+    type: loop-comments
+```
+
+
+See the [Panel docs](https://moinfra.me/docs/moinframe-loop/panel) for permissions and how to hide the area for certain roles.
+
+## Documentation
+
+- [Installation](https://moinfra.me/docs/moinframe-loop/installation)
+- [Configuration](https://moinfra.me/docs/moinframe-loop/configuration)
+- [Multi-Language](https://moinfra.me/docs/moinframe-loop/multi-language)
+- [Theming](https://moinfra.me/docs/moinframe-loop/theming)
+- [Panel](https://moinfra.me/docs/moinframe-loop/panel)
+- [API](https://moinfra.me/docs/moinframe-loop/api)
 
 ## Requirements
 
@@ -80,16 +82,12 @@ See the [Configuration Guide](https://moinfra.me/docs/moinframe-loop/02-configur
 - PHP 8.3+
 - SQLite support
 
-## Important Notes
-
-> [!WARNING]
-> Pages with the snippet automatically have Kirby's page **cache** **disabled**. This is necessary for CSRF token validation and User authentication checks.
-
+> [!WARNING] Caching
+> Pages with the snippet automatically have Kirby's page **cache disabled**. This is necessary for CSRF token validation and user authentication checks.
 
 ## Support
 
-- **Documentation**: See the [Documentation](https://moinfra.me/docs/moinframe-loop) for installation and usage instructions
-- **Issues**: Report bugs on [GitHub Issues](https://github.com/moinframe/kirby-loop/issues)
+Found a bug? Report it on [GitHub Issues](https://github.com/moinframe/kirby-loop/issues).
 
 ## License
 
