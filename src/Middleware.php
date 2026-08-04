@@ -2,10 +2,33 @@
 
 namespace Moinframe\Loop;
 
+use Kirby\Cms\Language;
 use Kirby\Http\Response;
 
 class Middleware
 {
+    /**
+     * For routes with a language scope Kirby injects the current Language
+     * object as the very first argument – but only on multi-language sites.
+     * On single-language sites nothing is injected, so the first argument is
+     * already the route's own pattern.
+     *
+     * @param mixed $language First argument received from the router
+     * @param mixed $pageId Second argument received from the router
+     * @return array{0: string|null, 1: string|null} Language code and page id
+     */
+    public static function args(mixed $language, mixed $pageId = null): array
+    {
+        if ($language instanceof Language) {
+            return [$language->code(), is_string($pageId) ? $pageId : null];
+        }
+
+        // single language: the first argument is the page id, if any
+        $id = $language ?? $pageId;
+
+        return [null, is_string($id) ? $id : null];
+    }
+
     /**
      * Authentication middleware
      * @param callable $next The next action to execute
@@ -15,12 +38,9 @@ class Middleware
     {
         return function ($language = null, $pageId = null) use ($next) {
 
-            // Handle both multilingual and non-multilingual cases
-            if ($pageId === null && $language !== null) {
-                // Non-multilingual: only pageId was passed as first argument
-                $pageId = $language;
-                $language = null;
-            }
+            // Normalize arguments
+            [$language, $pageId] = Middleware::args($language, $pageId);
+
             $onPage = null;
 
             if ($pageId === 'home'):

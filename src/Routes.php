@@ -52,12 +52,6 @@ class Routes
                 'language' => '*',
                 'action' => Middleware::auth(function ($language = null, $pageId = null) {
 
-                    // Handle both multilingual and non-multilingual cases
-                    if ($pageId === null && $language !== null) {
-                        // Non-multilingual: only pageId was passed as first argument
-                        $pageId = $language;
-                        $language = null;
-                    }
                     $onPage = null;
 
                     if ($pageId === 'home'):
