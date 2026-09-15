@@ -1,4 +1,7 @@
 {
+	"files": {
+		"ignore": [".kirbyenv"]
+	},
 	"overrides": [
 		{
 			"include": ["*.svelte", "*.astro", "*.vue"],

@@ -13,6 +13,9 @@ parameters:
         analyseAndScan:
             - vendor
             - node_modules
+            # Generated Kirby installs. Each one symlinks site/plugins/loop
+            # back to this repo, so following them recurses forever.
+            - .kirbyenv
 
     # Cache
     tmpDir: .phpstan-cache
