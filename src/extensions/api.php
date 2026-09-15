@@ -16,7 +16,7 @@ return [
                 $page = kirby()->page('page://' . $comment->page);
                 $data['pageTitle'] = $page !== null ? $page->title()->value() : t('moinframe.loop.panel.unknownPage');
                 $data['pagePath'] = $page !== null ? 'pages/' . str_replace('/', '+', $page->id()) : null;
-                $data['pageUrl'] = $page !== null ? $page->url() : null;
+                $data['pageUrl'] = $page !== null ? $page->url($comment->lang !== '' ? $comment->lang : null) : null;
                 $data['panelUrl'] = $page !== null ? $page->panel()->url() : null;
 
                 if ($page !== null) {

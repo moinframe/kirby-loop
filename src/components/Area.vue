@@ -83,12 +83,13 @@ const items = computed(() =>
     const replyCount = (c.replies ?? []).length;
     const replyLabel = t(replyCount === 1 ? 'moinframe.loop.panel.reply' : 'moinframe.loop.panel.replies');
     const replyText = replyCount > 0 ? ` · ${replyCount} ${replyLabel}` : "";
+    const langText = c.lang ? ` · ${c.lang.toUpperCase()}` : "";
 
     return {
       id: c.id,
       commentId: c.id,
       text: c.comment.length > 80 ? c.comment.substring(0, 80) + "…" : c.comment,
-      info: `${c.author}${replyText}`,
+      info: `${c.author}${replyText}${langText}`,
       pageId: c.page,
       pageTitle: c.pageTitle,
       titlePath: c.titlePath ?? [c.pageTitle],
@@ -100,6 +101,7 @@ const items = computed(() =>
         color: resolved ? "green-800" : "blue-800",
       },
       pagePath: c.pagePath,
+      lang: c.lang,
       resolved,
       buttons: [],
       options: [
@@ -197,7 +199,9 @@ async function onOption(action, item) {
       notification.error(e.message);
     }
   } else if (action === "openPage" && item.pagePath) {
-    window.open(`${window.location.origin}/panel/${item.pagePath}`, "_blank");
+    const url = new URL(`${window.location.origin}/panel/${item.pagePath}`);
+    if (item.lang) url.searchParams.set("language", item.lang);
+    window.open(url.toString(), "_blank");
   } else if (action === "openDrawer") {
     openDrawer(item.commentId);
   }

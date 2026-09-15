@@ -46,9 +46,11 @@ return [
                         continue;
                     }
 
+                    $language = $comment->lang !== '' ? $comment->lang : null;
+
                     $pageUrl = $model instanceof Page
-                        ? $model->url()
-                        : (page($comment->page)?->url() ?? $comment->url);
+                        ? $model->url($language)
+                        : (kirby()->page('page://' . $comment->page)?->url($language) ?? $comment->url);
 
                     $items[] = [
                         'id'         => $comment->id,
@@ -57,6 +59,7 @@ return [
                         'status'     => $comment->status->value,
                         'replyCount' => count($comment->replies),
                         'pageUrl'    => $pageUrl,
+                        'lang'       => $comment->lang,
                     ];
                 }
 

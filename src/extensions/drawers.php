@@ -21,6 +21,11 @@ return [
             $pageTitle = $page !== null ? $page->title()->value() : t('moinframe.loop.panel.unknownPage');
             $pagePanelUrl = $page !== null ? $page->panel()->url(true) : null;
 
+            // Resolve the comment's language to a display name, if tracked
+            $languageName = $comment->lang !== ''
+                ? (kirby()->language($comment->lang)?->name() ?? strtoupper($comment->lang))
+                : null;
+
             // Format timestamp using the current Panel language locale
             $date = App::formatDate($comment->timestamp);
 
@@ -80,6 +85,15 @@ return [
                             'icon'     => 'page',
                             'disabled' => true,
                         ],
+                        ...($languageName !== null ? [
+                            'lang' => [
+                                'type'     => 'text',
+                                'label'    => t('moinframe.loop.panel.drawer.language'),
+                                'width'    => '1/2',
+                                'icon'     => 'globe',
+                                'disabled' => true,
+                            ],
+                        ] : []),
                         'resolved' => [
                             'type'  => 'toggle',
                             'disabled' => true,
@@ -100,6 +114,7 @@ return [
                         'author'  => $author,
                         'date'    => $date,
                         'page'    => $pageTitle,
+                        ...($languageName !== null ? ['lang' => $languageName] : []),
                         'resolved'  => $isResolved,
                     ],
                 ],
