@@ -39,26 +39,33 @@ class Middleware
      *  page id at all (e.g. comment/reply, which only knows a parentId) use
      *  this to look up the page via the comment/reply instead. Defaults to
      *  resolving the page id from the URL or, failing that, the request body.
+     * @param bool $checkEnabled Whether to run the per-page `enabled` check at
+     *  all. Some routes (e.g. guest/name) act on the session rather than a
+     *  page and carry no page context to evaluate `enabled` against - for
+     *  those, skip the check rather than falling back to an unrelated
+     *  ambient page. CSRF and the public/auth check still apply.
      * @return callable Middleware function
      */
-    public static function auth(callable $next, ?callable $resolvePage = null): callable
+    public static function auth(callable $next, ?callable $resolvePage = null, bool $checkEnabled = true): callable
     {
-        return function ($language = null, $pageId = null) use ($next, $resolvePage) {
+        return function ($language = null, $pageId = null) use ($next, $resolvePage, $checkEnabled) {
 
             // Normalize arguments
             [$language, $pageId] = Middleware::args($language, $pageId);
 
-            $onPage = $resolvePage !== null
-                ? $resolvePage($pageId)
-                : Middleware::resolvePage($pageId);
+            if ($checkEnabled) {
+                $onPage = $resolvePage !== null
+                    ? $resolvePage($pageId)
+                    : Middleware::resolvePage($pageId);
 
-            // Check if loop is enabled
-            if (!Options::enabled($onPage)) {
-                return Response::json([
-                    'status' => 'error',
-                    'message' => 'Loop is disabled',
-                    'code' => 'DISABLED'
-                ], 403);
+                // Check if loop is enabled
+                if (!Options::enabled($onPage)) {
+                    return Response::json([
+                        'status' => 'error',
+                        'message' => 'Loop is disabled',
+                        'code' => 'DISABLED'
+                    ], 403);
+                }
             }
 
             $csrfToken = kirby()->request()->header('X-CSRF-Token');

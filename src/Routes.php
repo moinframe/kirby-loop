@@ -319,7 +319,7 @@ class Routes
                         'status' => 'ok',
                         'name' => $name
                     ], 200);
-                })
+                }, null, false)
             ]
         ];
     }
