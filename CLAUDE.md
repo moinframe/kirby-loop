@@ -45,6 +45,18 @@ vendor/bin/phpstan analyse
 **Documentation:**
 Use context7 to find out about Kirby CMS, Documentation for this plugin is placed in the `docs/` folder.
 
+**Test environments:**
+```bash
+kirbyenv up            # build Kirby 4 / 5, each single- and multi-language
+kirbyenv list          # variants with their URLs and active preset
+kirbyenv preset public # switch plugin options across all installs
+kirbyenv serve k5-ml   # or run one without Herd
+```
+Driven by `.kirbyenv.php` and the option presets in `kirbyenv/presets/`.
+Installs are generated into the gitignored `.kirbyenv/` folder with this repo
+symlinked in as `site/plugins/loop`, so a `pnpm build` is live immediately.
+Tooling lives in `~/Server/kirby-plugin-kirbyenv`.
+
 ## Key Architecture Details
 
 **Plugin Integration:**

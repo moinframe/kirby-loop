@@ -51,11 +51,12 @@ const items = computed(() =>
     const resolved = c.status === "RESOLVED";
     const replyLabel = t(c.replyCount === 1 ? "moinframe.loop.panel.reply" : "moinframe.loop.panel.replies");
     const replyText = c.replyCount > 0 ? ` · ${c.replyCount} ${replyLabel}` : "";
+    const langText = c.lang ? ` · ${c.lang.toUpperCase()}` : "";
 
     return {
       id: c.id,
       text: c.comment.length > 80 ? c.comment.substring(0, 80) + "…" : c.comment,
-      info: `${c.author}${replyText}`,
+      info: `${c.author}${replyText}${langText}`,
       pageUrl: c.pageUrl,
       image: {
         icon: "",

@@ -4,6 +4,9 @@
 # npm modules
 /node_modules
 
+# Generated test environments (see .kirbyenv.php)
+/.kirbyenv
+
 # Composer files
 /vendor
 /kirby

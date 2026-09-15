@@ -119,7 +119,7 @@ class Database
                 ->where('id', '=', $id)
                 ->first();
 
-            if ($comment === null) {
+            if ($comment === null || $comment === false) {
                 return null;
             }
 
