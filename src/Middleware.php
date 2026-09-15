@@ -3,6 +3,7 @@
 namespace Moinframe\Loop;
 
 use Kirby\Cms\Language;
+use Kirby\Cms\Page;
 use Kirby\Http\Response;
 
 class Middleware
@@ -32,22 +33,24 @@ class Middleware
     /**
      * Authentication middleware
      * @param callable $next The next action to execute
+     * @param callable|null $resolvePage Optional resolver returning the page
+     *  the `enabled` option should be evaluated against, called with the
+     *  normalized page id from the URL (if any). Routes that don't carry a
+     *  page id at all (e.g. comment/reply, which only knows a parentId) use
+     *  this to look up the page via the comment/reply instead. Defaults to
+     *  resolving the page id from the URL or, failing that, the request body.
      * @return callable Middleware function
      */
-    public static function auth(callable $next): callable
+    public static function auth(callable $next, ?callable $resolvePage = null): callable
     {
-        return function ($language = null, $pageId = null) use ($next) {
+        return function ($language = null, $pageId = null) use ($next, $resolvePage) {
 
             // Normalize arguments
             [$language, $pageId] = Middleware::args($language, $pageId);
 
-            $onPage = null;
-
-            if ($pageId === 'home'):
-                $onPage = kirby()->site()->homePage();
-            else:
-                $onPage = page($pageId);
-            endif;
+            $onPage = $resolvePage !== null
+                ? $resolvePage($pageId)
+                : Middleware::resolvePage($pageId);
 
             // Check if loop is enabled
             if (!Options::enabled($onPage)) {
@@ -79,5 +82,29 @@ class Middleware
 
             return $next($language, $pageId);
         };
+    }
+
+    /**
+     * Default page resolution for the `enabled` check: uses the page id from
+     * the URL if the route pattern captured one, otherwise falls back to a
+     * `pageId` field in the request body/query (e.g. comment/new, which only
+     * carries it there).
+     * @param string|null $pageId Page id from the URL, if any
+     * @return Page|null
+     */
+    public static function resolvePage(?string $pageId): ?Page
+    {
+        if ($pageId === null) {
+            $bodyPageId = kirby()->request()->get('pageId');
+            if (is_string($bodyPageId)) {
+                $pageId = $bodyPageId;
+            }
+        }
+
+        if ($pageId === 'home') {
+            return kirby()->site()->homePage();
+        }
+
+        return page($pageId);
     }
 }

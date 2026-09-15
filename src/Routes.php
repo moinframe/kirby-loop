@@ -3,6 +3,7 @@
 namespace Moinframe\Loop;
 
 use Moinframe\Loop\App;
+use Kirby\Cms\Page;
 use Kirby\Http\Response;
 use Moinframe\Loop\Models\Comment;
 use Moinframe\Loop\Models\Reply;
@@ -38,6 +39,25 @@ class Routes
 
         return $response;
     }
+
+    /**
+     * Resolves the page a (top-level) comment belongs to. Used to evaluate
+     * the `enabled` option for routes that only know a comment id (reply,
+     * resolve, unresolve) rather than a page id.
+     * @param mixed $commentId Comment id, typically from the request data
+     * @return Page|null
+     */
+    private static function pageOfComment(mixed $commentId): ?Page
+    {
+        if (is_numeric($commentId) === false) {
+            return null;
+        }
+
+        $comment = App::getComment((int) $commentId);
+
+        return $comment !== null ? kirby()->page('page://' . $comment->page) : null;
+    }
+
     /**
      * Registers routes and returns route definitions
      * @return array<mixed> Route definitions array
@@ -208,7 +228,7 @@ class Routes
                         'status' => 'ok',
                         'success' => $success
                     ], 200);
-                })
+                }, fn () => self::pageOfComment(kirby()->request()->get('id')))
             ],
             [
                 'pattern' => 'loop/comment/reply',
@@ -248,7 +268,7 @@ class Routes
                         'status' => 'ok',
                         'reply' => $result !== null ? $result->toArray() : null
                     ], 201);
-                })
+                }, fn () => self::pageOfComment(kirby()->request()->get('parentId')))
             ],
             [
                 'pattern' => 'loop/comment/unresolve',
@@ -276,7 +296,7 @@ class Routes
                         'status' => 'ok',
                         'success' => $success
                     ], 200);
-                })
+                }, fn () => self::pageOfComment(kirby()->request()->get('id')))
             ],
             [
                 'pattern' => 'loop/guest/name',
