@@ -92,7 +92,7 @@ Retrieve all comments for a specific page.
 **Error Responses:**
 - `400`: Page not found
 - `401`: Unauthorized (if authentication required)
-- `403`: CSRF token invalid
+- `403`: CSRF token invalid or disabled
 
 ### POST /loop/comment/new
 
@@ -265,7 +265,11 @@ Set a guest name for non-authenticated users (when public mode is enabled).
 **Error Responses:**
 - `400`: Missing or empty name
 - `401`: Unauthorized
-- `403`: CSRF token invalid or disabled
+- `403`: CSRF token invalid
+
+Unlike the other endpoints, this one is not gated by the `enabled` option: setting a
+guest name isn't tied to a specific page, so there's no page context to evaluate
+`enabled` against.
 
 ## Data Models
 

@@ -60,7 +60,12 @@ Controls whether loop is enabled globally or conditionally.
 - Enable only for published content
 - Conditional enabling based on page fields or metadata
 
-**Note**: This option is checked both during auto-injection and manual snippet usage.
+**Note**: This option is checked both during auto-injection and manual snippet
+usage, and is enforced again on every API request that acts on a comment
+(creating, replying, resolving, unresolving) using the page the request
+applies to - so a disabled page also rejects direct API requests, not just
+the widget. The one exception is `POST /loop/guest/name`: it isn't tied to a
+specific page, so it isn't gated by this option.
 
 ### Auto-Injection
 

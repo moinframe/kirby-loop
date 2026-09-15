@@ -9,7 +9,16 @@ Kirby Panel in two places: a global **Feedback area** and a per-page
 ## Feedback area
 
 The plugin automatically registers a **Feedback** entry in the Panel menu.
-It lists every comment across the whole site, grouped by page.
+It lists every comment across the whole site, grouped by page. On
+multi-language sites, each entry also shows the language the comment was
+written in as a short code (e.g. `EN`, `DE`) next to the author.
+
+### Comment details
+
+Clicking a comment opens a drawer with the full text, author, date, the page
+it belongs to and its status. On multi-language sites, the language the
+comment was written in is shown next to the page, using the language's full
+name (e.g. "Deutsch").
 
 ### Disabling the Feedback area
 
@@ -32,7 +41,8 @@ To disable it for everyone, add the same permission to every role blueprint or r
 
 Use the `loop-comments` section to show only the comments that belong to the
 page the section is placed on. This is handy on a page blueprint so editors see
-feedback in context while editing.
+feedback in context while editing. Like the Feedback area, entries also show
+each comment's language code on multi-language sites.
 
 Add it to any page blueprint:
 
@@ -117,3 +127,12 @@ directly.
 When such a link is opened, the on-page widget opens its panel, scrolls the
 comment's marker into view and briefly highlights it (resolved comments, which
 have no marker, are revealed in the panel list instead).
+
+On multi-language sites, this link points to the page in the comment's own
+language rather than whichever language you're currently viewing in the
+Panel.
+
+In the **Feedback area**, each comment's options menu also has an **Open
+page** action that opens the page in the Panel itself (rather than the live
+site) in a new tab. On multi-language sites, it likewise opens directly in
+the comment's language, via a `?language={code}` query parameter.
