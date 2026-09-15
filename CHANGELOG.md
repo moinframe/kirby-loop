@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.2.0](///compare/v1.1.1...v1.2.0) (2026-09-15)
+
+### Features
+
+* add lang hint in the panel view, link to lang page 6f1f951
+
+### Bug Fixes
+
+* normalize arguments $lang and $pageId 6c494c3
+* possible fatal error in database check 230d850
+* resolve guest name in enabled callback 8509ffb
+* resolve page id from url or body depending on request 4e0c0a3
+
 ## [1.1.1](///compare/v1.1.0...v1.1.1) (2026-06-11)
 
 ### Bug Fixes
