@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.0](///compare/v1.2.0...v2.0.0) (2026-11-25)
+
+### Features
+
+* add kirby 6 compatibility, move to vue 3 a8fab99
+* upgrade frontend, add linting 5287806
+
 ## [1.2.0](///compare/v1.1.1...v1.2.0) (2026-09-15)
 
 ### Features
