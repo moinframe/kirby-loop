@@ -1,18 +1,20 @@
 {
-	"files": {
-		"ignore": [".kirbyenv"]
+	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
 	},
-	"overrides": [
-		{
-			"include": ["*.svelte", "*.astro", "*.vue"],
-			"linter": {
-				"rules": {
-					"style": {
-						"useConst": "off",
-						"useImportType": "off"
-					}
-				}
-			}
-		}
-	]
+	"files": {
+		"includes": [
+			"**",
+			"!**/.kirbyenv",
+			"!assets/loop.js",
+			"!index.js",
+			"!index.css"
+		]
+	},
+	"html": {
+		"experimentalFullSupportEnabled": true
+	}
 }

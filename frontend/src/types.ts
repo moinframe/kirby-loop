@@ -63,7 +63,7 @@ export interface MarkerPosition {
   pagePositionY: number;
 }
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   status: 'ok' | 'error';
   message?: string;
   code?: string;

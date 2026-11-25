@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import { resolveComment, unresolveComment } from "../store/api.svelte";
   import { t } from "../store/translations.svelte";
   import type { Comment } from "../types";
@@ -22,8 +23,9 @@
   } = $props();
 
   let openReplyForm = $state(false);
+  // Only the initial open state comes from the comment, afterwards the user toggles it.
   let detailsOpen = $state(
-    comment.replies?.length > 0 && !panel.showResolvedOnly,
+    untrack(() => comment.replies?.length > 0 && !panel.showResolvedOnly),
   );
 </script>
 
@@ -152,10 +154,8 @@
 
   .comment__header {
     display: flex;
-    align-items: center;
     font-size: var(--comment-header-font-size);
     padding: var(--comment-header-padding);
-    align-items: flex-start;
     gap: var(--comment-header-gap);
     cursor: pointer;
     border-radius: var(--comment-header-border-radius);

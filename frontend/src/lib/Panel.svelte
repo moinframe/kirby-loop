@@ -116,14 +116,6 @@
       width: var(--panel-mobile-width);
     }
 
-    &.open {
-      transform: var(--panel-transform-open);
-      box-shadow: var(--panel-shadow);
-      header {
-        transform: var(--panel-header-transform-open);
-      }
-    }
-
     header {
       transform: var(--panel-header-transform-closed);
       border-top-left-radius: var(--panel-header-border-radius);
@@ -139,10 +131,21 @@
       box-shadow: var(--shadow-l), var(--shadow-light-edge),
         var(--shadow-dark-edge);
       transition: transform var(--transition-duration) var(--transition-easing);
-      &:hover,
-      &:focus-visible {
-        transform: var(--panel-header-transform-hover);
+    }
+
+    /* The .open header and hover rules have the same specificity, so hover
+       has to come last to still win on an open panel. */
+    &.open {
+      transform: var(--panel-transform-open);
+      box-shadow: var(--panel-shadow);
+      header {
+        transform: var(--panel-header-transform-open);
       }
+    }
+
+    header:hover,
+    header:focus-visible {
+      transform: var(--panel-header-transform-hover);
     }
   }
 

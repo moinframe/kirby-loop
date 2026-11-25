@@ -36,11 +36,12 @@
               :options="item.options" :buttons="item.buttons" :image="item.image" @option="(e) => onOption(e, item)"
               @click="(e) => onItemClick(e, item.commentId)">
               <template #image>
-                <span :data-comment-id="item.id" :title="t('moinframe.loop.panel.openOnPage')"
+                <button type="button" :data-comment-id="item.id" :title="t('moinframe.loop.panel.openOnPage')"
+                  :aria-label="`${t('moinframe.loop.panel.openOnPage')} #${item.id}`"
                   :style="`--back: var(--color-${item.image.back});--color: var(--color-${item.image.color});`"
                   @click.stop="openOnPage(item)">
                   <k-icon-frame :icon="item.image.icon" :back="item.image.back" :color="item.image.color" />
-                </span>
+                </button>
               </template>
             </k-item>
           </div>
@@ -90,7 +91,7 @@ const items = computed(() =>
     return {
       id: c.id,
       commentId: c.id,
-      text: c.comment.length > 80 ? c.comment.substring(0, 80) + "…" : c.comment,
+      text: c.comment.length > 80 ? `${c.comment.substring(0, 80)}…` : c.comment,
       info: `${c.author}${replyText}${langText}`,
       pageId: c.page,
       pageTitle: c.pageTitle,
@@ -161,7 +162,7 @@ function onItemClick(e, id) {
 }
 
 function openDrawer(id) {
-  panel.drawer.open('loop/comments/' + id);
+  panel.drawer.open(`loop/comments/${id}`);
 }
 
 function openOnPage(item) {
@@ -217,12 +218,7 @@ onMounted(() => {
 });
 </script>
 
-<style>
-.k-loop-filters {
-  margin-top: var(--spacing-2);
-  margin-bottom: var(--spacing-8);
-}
-
+<style scoped>
 .k-loop-loader {
   margin-inline: auto;
   margin-block: var(--spacing-5);
@@ -232,11 +228,7 @@ onMounted(() => {
   margin-top: var(--spacing-6);
 }
 
-.k-loop-group .k-item-title {
+.k-loop-group :deep(.k-item-title) {
   cursor: pointer;
-}
-
-.k-loop-group-label {
-  margin-bottom: var(--spacing-2);
 }
 </style>

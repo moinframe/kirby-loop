@@ -4,6 +4,11 @@
    column (data-has-image=true). */
 [data-comment-id] {
   position: relative;
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
   cursor: pointer;
 }
 

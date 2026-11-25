@@ -2,9 +2,7 @@
  * Performance-optimized resize handler with debouncing and RAF
  */
 
-interface ResizeCallback {
-  (): void;
-}
+type ResizeCallback = () => void
 
 interface ResizeHandlerOptions {
   /** Debounce delay in milliseconds (default: 100) */

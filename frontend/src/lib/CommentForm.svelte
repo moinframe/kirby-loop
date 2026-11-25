@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import Button from "./Button.svelte";
   import { t } from "../store/translations.svelte";
   const {
@@ -11,7 +12,7 @@
     parentId?: number | null;
   } = $props();
   import { formData } from "../store/form.svelte";
-  formData.parentId = parentId ? Number(parentId) : null;
+  formData.parentId = untrack(() => (parentId ? Number(parentId) : null));
 
   function handleKeydown(e: KeyboardEvent) {
     if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {

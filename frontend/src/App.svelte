@@ -23,7 +23,6 @@
   const {
     position,
     language,
-    apibase,
     pageId,
     authenticated,
     "welcome-enabled": welcomeEnabled,

@@ -18,11 +18,12 @@
       <k-item v-for="item in items" :key="item.id" :text="item.text" :info="item.info" :options="item.options"
         :image="item.image" @option="(action) => onOption(action, item)" @click="(e) => onItemClick(e, item.id)">
         <template #image>
-          <span :data-comment-id="item.id" :title="t('moinframe.loop.panel.openOnPage')"
+          <button type="button" :data-comment-id="item.id" :title="t('moinframe.loop.panel.openOnPage')"
+            :aria-label="`${t('moinframe.loop.panel.openOnPage')} #${item.id}`"
             :style="`--back: var(--color-${item.image.back});--color: var(--color-${item.image.color});`"
             @click.stop="openOnPage(item)">
             <k-icon-frame :icon="item.image.icon" :back="item.image.back" :color="item.image.color" />
-          </span>
+          </button>
         </template>
       </k-item>
     </div>
@@ -61,7 +62,7 @@ const items = computed(() =>
 
     return {
       id: c.id,
-      text: c.comment.length > 80 ? c.comment.substring(0, 80) + "…" : c.comment,
+      text: c.comment.length > 80 ? `${c.comment.substring(0, 80)}…` : c.comment,
       info: `${c.author}${replyText}${langText}`,
       pageUrl: c.pageUrl,
       image: {
@@ -85,7 +86,7 @@ function onItemClick(e, id) {
 }
 
 function openDrawer(id) {
-  panel.drawer.open("loop/comments/" + id);
+  panel.drawer.open(`loop/comments/${id}`);
 }
 
 function openOnPage(item) {
@@ -124,8 +125,8 @@ watch(() => loopBus.revision, () => load());
 onMounted(load);
 </script>
 
-<style>
-.k-loop-comments-field .k-item-title {
+<style scoped>
+.k-loop-comments-field :deep(.k-item-title) {
   cursor: pointer;
 }
 

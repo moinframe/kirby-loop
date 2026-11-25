@@ -9,18 +9,21 @@
 		"dev:panel": "kirbyup dev src/index.js",
 		"build:panel": "kirbyup src/index.js",
 		"build:all": "pnpm build && pnpm build:panel",
-		"release": "release-it"
+		"release": "release-it",
+		"lint": "biome lint",
+		"lint:fix": "biome lint --write"
 	},
 	"keywords": [],
 	"author": "Justus Kraft <justus@moinfra.me>",
 	"license": "MIT",
 	"packageManager": "pnpm@11.5.3+sha512.7ac1c919341c213a34dc0d02afb7143c5c26ac26ee8c4782deea821b8ac64d2134a081fd8941dae6e29bbb48f58dfc2b7fbceeccc07cb2f09d219d342a4969ed",
 	"devDependencies": {
+		"@biomejs/biome": "^2.6.8",
 		"@release-it/bumper": "^7.0.6",
 		"@release-it/conventional-changelog": "^11.0.1",
 		"kirbyup": "^4.0.0",
 		"kirbyuse": "^2.0.0",
-		"release-it": "^20.2.0",
+		"release-it": "^20.2.1",
 		"vue": "^3.5.46"
 	}
 }

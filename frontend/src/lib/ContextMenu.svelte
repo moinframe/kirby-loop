@@ -2,7 +2,6 @@
   import { panel } from "../store/ui.svelte";
   import { t } from "../store/translations.svelte";
   import Button from "./Button.svelte";
-  import IconDots from "./Icon/IconDots.svelte";
   import IconSettings from "./Icon/IconSettings.svelte";
 
   let contextMenu: HTMLElement;

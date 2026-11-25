@@ -10,18 +10,18 @@
 		"check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json"
 	},
 	"devDependencies": {
-		"@sveltejs/vite-plugin-svelte": "^7.1.2",
-		"@tsconfig/svelte": "^5.0.8",
-		"@types/node": "^25.9.2",
-		"browserslist": "^4.28.2",
-		"lightningcss": "^1.32.0",
-		"svelte": "^5.56.3",
-		"svelte-check": "^4.6.0",
-		"terser": "^5.48.0",
+		"@sveltejs/vite-plugin-svelte": "^7.3.2",
+		"@tsconfig/svelte": "^5.0.9",
+		"@types/node": "^25.9.9",
+		"browserslist": "^4.29.6",
+		"lightningcss": "^1.33.0",
+		"svelte": "^5.59.1",
+		"svelte-check": "^4.7.8",
+		"terser": "^5.51.4",
 		"typescript": "~6.0.3",
-		"vite": "^8.0.16",
-		"vite-plugin-css-injected-by-js": "^5.0.1",
-		"vite-plugin-ejs": "^1.7.0",
-		"vitest": "^4.1.8"
+		"vite": "^8.3.8",
+		"vite-plugin-css-injected-by-js": "^5.0.3",
+		"vite-plugin-ejs": "^1.8.0",
+		"vitest": "^4.1.12"
 	}
 }

@@ -331,7 +331,7 @@ function isUniqueSelector(selector: string): boolean {
   try {
     const matches = document.querySelectorAll(selector);
     return matches.length === 1;
-  } catch (error) {
+  } catch {
     return false;
   }
 }
