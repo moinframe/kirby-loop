@@ -7,7 +7,7 @@ Stay in the loop. A visual feedback plugin for Kirby CMS: click anywhere on a pa
 
 - **Click-to-comment**: switch to comment mode and click any element to attach feedback to it
 - **Threaded discussions**: reply to comments and mark them as resolved
-- **Panel integration**: a global Feedback area in the Kirby Panel plus a per-page comments section for page blueprints
+- **Panel integration**: a global Feedback area in the Kirby Panel plus a per-page comments field for page blueprints
 - **Multi-language**: works with Kirby's multi-language sites, UI language auto-detected
 - **Public or users only**: restrict commenting to authenticated users or open it up to the public
 - **Theming**: light/dark themes included, custom themes possible
@@ -56,10 +56,10 @@ return [
 
 ![Panel UI of Loop](kirby-loop-panel-view.jpg)
 
-Since 1.1.0 comments also show up in the Kirby Panel. A global **Feedback** area in the Panel menu lists all comments across the site, grouped by page. There's also a `loop-comments` blueprint section to show a page's comments right where editors work:
+Since 1.1.0 comments also show up in the Kirby Panel. A global **Feedback** area in the Panel menu lists all comments across the site, grouped by page. There's also a `loop-comments` blueprint field to show a page's comments right where editors work:
 
 ```yaml
-sections:
+fields:
   feedback:
     type: loop-comments
 ```
@@ -78,7 +78,7 @@ See the [Panel docs](https://moinfra.me/docs/moinframe-loop/panel) for permissio
 
 ## Requirements
 
-- Kirby CMS 4.0+
+- Kirby CMS 6 (Loop 1.x supports Kirby 4 and 5)
 - PHP 8.3+
 - SQLite support
 

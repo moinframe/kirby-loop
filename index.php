@@ -3,6 +3,7 @@
 use \Kirby\Cms\App as Kirby;
 use \Moinframe\Loop\Options;
 use \Moinframe\Loop\Routes;
+use \Moinframe\Loop\Fields\CommentsField;
 use \Kirby\Filesystem\F;
 
 F::loadClasses([
@@ -14,6 +15,7 @@ F::loadClasses([
     'moinframe\\loop\\Models\\Comment' => 'src/Models/Comment.php',
     'moinframe\\loop\\Models\\Reply' => 'src/Models/Reply.php',
     'moinframe\\loop\\Enums\\CommentStatus' => 'src/Enums/CommentStatus.php',
+    'moinframe\\loop\\Fields\\CommentsField' => 'src/Fields/CommentsField.php',
 ], __DIR__);
 
 Kirby::plugin('moinframe/loop', [
@@ -288,7 +290,9 @@ Kirby::plugin('moinframe/loop', [
         }
     ],
     'areas'    => require __DIR__ . '/src/extensions/areas.php',
-    'sections' => require __DIR__ . '/src/extensions/sections.php',
+    'fields'   => [
+        'loop-comments' => CommentsField::class
+    ],
     'api'      => ['routes' => require __DIR__ . '/src/extensions/api.php'],
     'routes' => Routes::register(),
     'snippets' => [

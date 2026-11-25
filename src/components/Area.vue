@@ -1,6 +1,5 @@
 <template>
-  <k-panel-inside>
-    <k-view class="k-loop-comments-view">
+  <k-panel-inside class="k-loop-comments-view">
       <k-header>
         {{ t('moinframe.loop.panel.label') }}
         <template #buttons>
@@ -25,8 +24,8 @@
       <template v-else>
 
         <k-section v-for="group in groupedItems" :key="group.pageId" class="k-loop-group" :label="group.label">
-          <template slot="options">
-            <k-button-group slot="buttons">
+          <template #options>
+            <k-button-group>
               <k-button icon="edit" variant="filled" size="sm" :link="group.panelUrl"
                 :text="t('moinframe.loop.panel.editPage')" />
               <k-button icon="open" variant="filled" size="sm" :link="group.pageUrl" target="_blank" />
@@ -36,25 +35,28 @@
             <k-item v-for="item in group.items" :key="item.id" :text="item.text" :info="item.info"
               :options="item.options" :buttons="item.buttons" :image="item.image" @option="(e) => onOption(e, item)"
               @click="(e) => onItemClick(e, item.commentId)">
-              <span slot="image" :data-comment-id="item.id" :title="t('moinframe.loop.panel.openOnPage')"
-                :style="`--back: var(--color-${item.image.back});--color: var(--color-${item.image.color});`"
-                @click.stop="openOnPage(item)">
-                <k-icon-frame :icon="item.image.icon" :back="item.image.back" :color="item.image.color" />
-              </span>
+              <template #image>
+                <span :data-comment-id="item.id" :title="t('moinframe.loop.panel.openOnPage')"
+                  :style="`--back: var(--color-${item.image.back});--color: var(--color-${item.image.color});`"
+                  @click.stop="openOnPage(item)">
+                  <k-icon-frame :icon="item.image.icon" :back="item.image.back" :color="item.image.color" />
+                </span>
+              </template>
             </k-item>
           </div>
         </k-section>
       </template>
-    </k-view>
   </k-panel-inside>
 </template>
 
 <script setup>
-import { useApi, usePanel, ref, computed, onMounted } from "kirbyuse";
+import { ref, computed, onMounted } from "vue";
+import { useApi, usePanel } from "kirbyuse";
 import { commentsCache } from "../store.js";
 
-const { get, post } = useApi();
-const { t, notification } = usePanel();
+const api = useApi();
+const panel = usePanel();
+const { t, notification } = panel;
 
 const props = defineProps({
   tab: { type: String, default: "open" },
@@ -171,7 +173,7 @@ async function load() {
   loading.value = true;
   try {
     const [commentsData] = await Promise.all([
-      get("loop/comments"),
+      api.get("loop/comments"),
     ]);
     comments.value = commentsData ?? [];
     commentsCache.items = comments.value;
@@ -186,14 +188,14 @@ async function load() {
 async function onOption(action, item) {
   if (action === "resolve") {
     try {
-      await post(`loop/comments/${item.commentId}/resolve`);
+      await api.post(`loop/comments/${item.commentId}/resolve`);
       await load();
     } catch (e) {
       notification.error(e.message);
     }
   } else if (action === "unresolve") {
     try {
-      await post(`loop/comments/${item.commentId}/unresolve`);
+      await api.post(`loop/comments/${item.commentId}/unresolve`);
       await load();
     } catch (e) {
       notification.error(e.message);

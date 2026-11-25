@@ -145,7 +145,7 @@ class Database
 
     /**
      * Retrieves all comments from the database
-     * @return Collection Array of comments
+     * @return Collection<mixed> Array of comments
      */
     public static function getComments(): Collection
     {
@@ -163,7 +163,7 @@ class Database
     /**
      * Retrieves comments with their replies in a single optimized query
      * @param string|null $status Filter by status (optional)
-     * @return Collection Array of comments with nested replies
+     * @return Collection<array<string, mixed>> Array of comments with nested replies
      */
     public static function getCommentsWithReplies(?string $status = null): Collection
     {
@@ -206,7 +206,7 @@ class Database
             foreach ($comments as $comment) {
                 $commentArray = $comment->toArray();
                 $commentArray['replies'] = $repliesByParent[$comment->id] ?? [];
-                $result[] = $commentArray;
+                $result[(string) $comment->id] = $commentArray;
             }
 
             return new Collection($result);
@@ -220,7 +220,7 @@ class Database
      * @param string $pageUuid Page UUID to filter by
      * @param string $lang Language to filter by
      * @param string|null $status Status to exclude (optional)
-     * @return Collection Array of comments with nested replies
+     * @return Collection<array<string, mixed>> Array of comments with nested replies
      */
     public static function getCommentsByPage(string $pageUuid, string $lang = '', ?string $status = null): Collection
     {
@@ -270,7 +270,7 @@ class Database
             foreach ($comments as $comment) {
                 $commentArray = $comment->toArray();
                 $commentArray['replies'] = $repliesByParent[$comment->id] ?? [];
-                $result[] = $commentArray;
+                $result[(string) $comment->id] = $commentArray;
             }
 
             return new Collection($result);
@@ -281,7 +281,7 @@ class Database
 
     /**
      * Retrieves all replies from the database
-     * @return Collection Array of comments
+     * @return Collection<mixed> Array of comments
      */
     public static function getReplies(): Collection
     {

@@ -32,3 +32,6 @@
 /vendor/**/php4/*
 /vendor/getkirby/composer-installer
 /.phpstan-cache
+
+# kirbyup dev server entry, never ship it
+/index.dev.js

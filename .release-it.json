@@ -1,5 +1,6 @@
 {
   "git": {
+    "requireBranch": "main",
     "requireUpstream": true,
     "push": true,
     "tagName": "v${version}",

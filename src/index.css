@@ -1,4 +1,4 @@
-/* Comment-id badge shared by the feedback area and the per-page section.
+/* Comment-id badge shared by the feedback area and the loop-comments field.
    Renders the comment's id as a colored dot inside the k-item image frame.
    Requires the item to pass an `image` prop so k-item reserves the frame
    column (data-has-image=true). */

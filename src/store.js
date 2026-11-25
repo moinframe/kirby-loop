@@ -6,7 +6,7 @@ export const commentsCache = reactive({
 });
 
 // Bumped whenever a comment's status changes, so other mounted
-// components (e.g. multiple sections on one page) can reload.
+// components (e.g. several loop-comments fields on one page) can reload.
 export const loopBus = reactive({
 	revision: 0,
 });

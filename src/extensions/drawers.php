@@ -2,6 +2,8 @@
 
 use Moinframe\Loop\App;
 use Kirby\Toolkit\A;
+use Kirby\Toolkit\Escape;
+use Kirby\Toolkit\HtmlString;
 use Kirby\Toolkit\Str;
 
 return [
@@ -39,7 +41,9 @@ return [
                         'type'  => 'info',
                         'theme' => 'text',
                         'label' => "",
-                        'text'  => "<strong>{$replyAuthor}</strong> ({$replyDate})<br />{$reply->comment}"
+                        'text'  => new HtmlString(
+                            '<strong>' . Escape::html($replyAuthor) . '</strong> (' . Escape::html($replyDate) . ')<br />' . Escape::html(App::plainText($reply->comment))
+                        )
                     ];
                 }
             } else {
@@ -62,7 +66,7 @@ return [
                             'type'     => 'info',
                             'theme'    => 'text',
                             'label'    => t('moinframe.loop.panel.drawer.comment'),
-                            'text'     => $comment->comment,
+                            'text'     => App::plainText($comment->comment),
                         ],
                         'author' => [
                             'type'     => 'text',

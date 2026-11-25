@@ -8,7 +8,7 @@ This guide covers all installation methods for the Kirby Loop plugin.
 
 Before installing the plugin, ensure your system meets these requirements:
 
-- **Kirby CMS**: Version 4.0 or higher
+- **Kirby CMS**: Version 6. For Kirby 4 and 5, use Loop 1.x (`composer require moinframe/kirby-loop:^1.2`)
 - **PHP**: Version 8.3 or higher
 - **SQLite**: Support enabled (usually included by default in PHP)
 

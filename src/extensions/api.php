@@ -12,6 +12,7 @@ return [
 
             foreach ($comments as $comment) {
                 $data = $comment->toArray();
+                $data['comment'] = App::plainText($comment->comment);
 
                 $page = kirby()->page('page://' . $comment->page);
                 $data['pageTitle'] = $page !== null ? $page->title()->value() : t('moinframe.loop.panel.unknownPage');

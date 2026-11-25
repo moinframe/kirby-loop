@@ -3,7 +3,6 @@
 namespace Moinframe\Loop;
 
 use Kirby\Cms\Page;
-use Kirby\Cms\App as KirbyApp;
 use Moinframe\Loop\Models\Comment;
 use Moinframe\Loop\Models\Reply;
 
@@ -12,14 +11,13 @@ class App
     private static ?Database $instance = null;
 
     /**
-     * Gets the major version of Kirby
-     * @return int Major version number
+     * Comment and reply text is stored HTML-encoded (see Routes), while Kirby 6
+     * Panel components escape plain strings themselves. Decode before handing
+     * text to the Panel, otherwise entities show up literally.
      */
-    public static function getKirbyMajorVersion(): int
+    public static function plainText(string $text): string
     {
-        $version = KirbyApp::version() ?? '0.0.0';
-        $parts = explode('.', $version);
-        return (int) ($parts[0] ?? 0);
+        return html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
     }
 
     /**
@@ -119,8 +117,9 @@ class App
     public static function getCommentsByPage(\Kirby\Cms\Page $page, string $lang = ''): array
     {
         try {
-            // @phpstan-ignore method.notFound
-            $pageUuid = $page->content()->uuid()->value();
+            // uuid() generates and stores the id for pages that don't have one yet,
+            // reading the content field returns null for those
+            $pageUuid = $page->uuid()->id();
             $db = self::db();
 
             // Use optimized query that filters at database level

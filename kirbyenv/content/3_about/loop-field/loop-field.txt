@@ -1,0 +1,5 @@
+Title: Loop field
+
+----
+
+Text: A subpage for testing the `loop-comments` field. Switch to the `field-subpage` preset to show the field in the Panel, leave a comment here on the page and it shows up in the field.

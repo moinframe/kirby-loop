@@ -1,14 +1,13 @@
 <template>
-  <section class="k-loop-comments-section">
-    <header class="k-section-header">
-      <k-headline>{{ label }}</k-headline>
+  <k-field :help="help" :input="false" :label="label" :name="name" :type="type" class="k-loop-comments-field">
+    <template #options>
       <k-button-group>
         <k-button icon="refresh" size="xs" variant="filled" :disabled="loading" @click="load" />
       </k-button-group>
-    </header>
+    </template>
 
     <template v-if="loading">
-      <k-icon type="loader" class="k-loop-section-loader" />
+      <k-icon type="loader" class="k-loop-field-loader" />
     </template>
 
     <k-empty v-else-if="items.length === 0" icon="chat">
@@ -18,32 +17,39 @@
     <div v-else class="k-items k-list-items" data-layout="list">
       <k-item v-for="item in items" :key="item.id" :text="item.text" :info="item.info" :options="item.options"
         :image="item.image" @option="(action) => onOption(action, item)" @click="(e) => onItemClick(e, item.id)">
-        <span slot="image" :data-comment-id="item.id" :title="t('moinframe.loop.panel.openOnPage')"
-          :style="`--back: var(--color-${item.image.back});--color: var(--color-${item.image.color});`"
-          @click.stop="openOnPage(item)">
-          <k-icon-frame :icon="item.image.icon" :back="item.image.back" :color="item.image.color" />
-        </span>
+        <template #image>
+          <span :data-comment-id="item.id" :title="t('moinframe.loop.panel.openOnPage')"
+            :style="`--back: var(--color-${item.image.back});--color: var(--color-${item.image.color});`"
+            @click.stop="openOnPage(item)">
+            <k-icon-frame :icon="item.image.icon" :back="item.image.back" :color="item.image.color" />
+          </span>
+        </template>
       </k-item>
     </div>
-  </section>
+  </k-field>
 </template>
 
 <script setup>
-import { useApi, usePanel, useSection, ref, computed, onMounted, watch } from "kirbyuse";
+import { ref, computed, onMounted, watch } from "vue";
+import { useApi, usePanel } from "kirbyuse";
 import { loopBus } from "../store.js";
 
+defineOptions({ inheritAttrs: false });
+
 const props = defineProps({
-  name: { type: String, default: null },
-  parent: { type: String, default: null },
+  help: String,
+  label: String,
+  name: String,
+  type: String,
+  status: String,
+  endpoints: Object,
 });
 
-const { post } = useApi();
+const api = useApi();
 const panel = usePanel();
 const { t, notification } = panel;
-const section = useSection();
 
 const loading = ref(false);
-const label = ref(t("moinframe.loop.panel.label"));
 const comments = ref([]);
 
 const items = computed(() =>
@@ -90,8 +96,7 @@ function openOnPage(item) {
 async function load() {
   loading.value = true;
   try {
-    const response = await section.load({ parent: props.parent, name: props.name });
-    label.value = response.label ?? t("moinframe.loop.panel.label");
+    const response = await api.get(props.endpoints.field);
     comments.value = response.comments ?? [];
   } catch (e) {
     notification.error(e.message ?? "Failed to load comments");
@@ -105,8 +110,8 @@ async function onOption(action, item) {
     openDrawer(item.id);
   } else if (action === "resolve" || action === "unresolve") {
     try {
-      await post(`loop/comments/${item.id}/${action}`);
-      // Reloads this section and any other mounted section via the watcher.
+      await api.post(`loop/comments/${item.id}/${action}`);
+      // Reloads this field and any other mounted loop-comments field via the watcher.
       loopBus.revision++;
     } catch (e) {
       notification.error(e.message);
@@ -114,29 +119,17 @@ async function onOption(action, item) {
   }
 }
 
-// Reload when any section changes a comment's status.
 watch(() => loopBus.revision, () => load());
 
 onMounted(load);
 </script>
 
 <style>
-.k-loop-comments-section {
-  margin-bottom: var(--spacing-8);
-}
-
-.k-loop-comments-section .k-section-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: var(--spacing-2);
-}
-
-.k-loop-comments-section .k-item-title {
+.k-loop-comments-field .k-item-title {
   cursor: pointer;
 }
 
-.k-loop-section-loader {
+.k-loop-field-loader {
   margin-inline: auto;
   margin-block: var(--spacing-5);
 }

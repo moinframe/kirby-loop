@@ -4,7 +4,7 @@ title: Panel
 
 Besides the on-page feedback widget, the plugin surfaces comments inside the
 Kirby Panel in two places: a global **Feedback area** and a per-page
-**comments section** you can drop into any blueprint.
+**comments field** you can drop into any blueprint.
 
 ## Feedback area
 
@@ -37,22 +37,25 @@ permissions:
 ```
 
 To disable it for everyone, add the same permission to every role blueprint or remove it from the menu by modifying `panel.menu` in your `config.php`. There is a simple to use plugin for that: [Kirby Panel Menu](https://github.com/moinframe/kirby-panel-menu).
-## Per-page comments section
+## Per-page comments field
 
-Use the `loop-comments` section to show only the comments that belong to the
-page the section is placed on. This is handy on a page blueprint so editors see
+Use the `loop-comments` field to show only the comments that belong to the
+page the field is placed on. This is handy on a page blueprint so editors see
 feedback in context while editing. Like the Feedback area, entries also show
 each comment's language code on multi-language sites.
 
 Add it to any page blueprint:
 
 ```yaml
-sections:
+fields:
   feedback:
     type: loop-comments
 ```
 
-Placed on `site.yml`, the section is no longer scoped to a single page and lists **all comments across the site** instead. The `status` option still applies, so `status: open` on `site.yml` gives you every open comment site-wide.
+Placed on `site.yml`, the field is no longer scoped to a single page and lists **all comments across the site** instead. The `status` option still applies, so `status: open` on `site.yml` gives you every open comment site-wide.
+
+The field doesn't store anything in the content file. As a regular field it also
+supports Kirby's `width`, `help` and `when` options.
 
 ### Options
 
@@ -65,7 +68,7 @@ Sets the heading shown above the comment list. Accepts a plain string or a
 translation array.
 
 ```yaml
-sections:
+fields:
   feedback:
     type: loop-comments
     label: Page feedback
@@ -73,7 +76,7 @@ sections:
 
 ```yaml
 # Translated label
-sections:
+fields:
   feedback:
     type: loop-comments
     label:
@@ -87,12 +90,12 @@ sections:
 **Default**: `all`
 **Values**: `all` | `open` | `resolved`
 
-Controls which comments the section lists. Use `open` to show only unresolved
+Controls which comments the field lists. Use `open` to show only unresolved
 comments, `resolved` for resolved ones, or `all` (default) for both.
 
 ```yaml
 # Only show open comments
-sections:
+fields:
   feedback:
     type: loop-comments
     status: open
@@ -109,15 +112,34 @@ columns:
       text:
         type: textarea
   - width: 1/3
-    sections:
+    fields:
       feedback:
         type: loop-comments
         label: Feedback
 ```
 
+### Upgrading from Loop 1.x
+
+Kirby 6 no longer supports custom sections, so `loop-comments` is a field
+since Loop 2.0. Move it from `sections` to `fields` in your blueprints. The
+`label` and `status` options stay the same. If the surrounding `sections` only
+wrapped a `fields` section, you can drop that wrapper too:
+
+```yaml
+# Loop 1.x (Kirby 4 and 5)
+sections:
+  feedback:
+    type: loop-comments
+
+# Loop 2.x (Kirby 6)
+fields:
+  feedback:
+    type: loop-comments
+```
+
 ## Deep linking to a comment
 
-In the **Feedback area** and the **comments section**, clicking a comment's
+In the **Feedback area** and the **comments field**, clicking a comment's
 colored marker opens the page in a new tab and jumps to that comment.
 
 The link uses the anchor `#loop-comment-{id}`, e.g.

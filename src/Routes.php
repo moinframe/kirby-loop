@@ -83,11 +83,7 @@ class Routes
                     // If not found, check if it's a draft and validate access
                     if (null === $onPage) {
                         $draftPage = kirby()->page($pageId);
-                        if ($draftPage !== null && $draftPage->isDraft() && (
-                            (App::getKirbyMajorVersion() >= 5 && $draftPage->renderVersionFromRequest() !== null) ||
-                            // @phpstan-ignore method.notFound
-                            (App::getKirbyMajorVersion() < 5 && $draftPage->isVerified(get('token')) === true)
-                        )) {
+                        if ($draftPage !== null && $draftPage->isDraft() && $draftPage->renderVersionFromRequest() !== null) {
                             $onPage = $draftPage;
                         }
                     }
@@ -162,11 +158,7 @@ class Routes
                     // If not found, check if it's a draft and validate access
                     if (null === $page) {
                         $draftPage = kirby()->page($pageId);
-                        if ($draftPage !== null && $draftPage->isDraft() && (
-                            (App::getKirbyMajorVersion() >= 5 && $draftPage->renderVersionFromRequest() !== null) ||
-                            // @phpstan-ignore method.notFound
-                            (App::getKirbyMajorVersion() < 5 && $draftPage->isVerified(get('token')) === true)
-                        )) {
+                        if ($draftPage !== null && $draftPage->isDraft() && $draftPage->renderVersionFromRequest() !== null) {
                             $page = $draftPage;
                         }
                     }
@@ -181,8 +173,7 @@ class Routes
                     $comment = [
                         'author' => ($user = kirby()->user()) !== null ? (string) $user->uuid() : (kirby()->session()->data()->get('loop.guest.name') ?? "guest"),
                         'url' => $data['url'],
-                        // @phpstan-ignore method.notFound
-                        'page' => $page->content()->uuid(),
+                        'page' => $page->uuid()->id(),
                         'comment' => $data['comment'],
                         'selector' => $data['selector'],
                         'selectorOffsetX' => $data['selectorOffsetX'],
